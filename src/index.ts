@@ -1,4 +1,3 @@
-import {drawTriangle} from "./webgl-renderer/triangle-renderer";
 import {Config} from "./webgl-renderer/webgl";
 import {main} from "./main/main";
 
