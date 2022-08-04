@@ -88,30 +88,27 @@ const createProgram = (gl: WebGL2RenderingContext, vertexShader: WebGLShader, fr
     throw new Error(log || "Failed to compile the Web GL program!");
 }
 
+const initWebGLContext = (elementId: string): WebGL2RenderingContext => {
+    const canvas = canvasElementOrFail(config, elementByIdOrFail(elementId));
+    const gl = canvas.getContext("webgl2");
+    if (gl === null) {
+        throw new Error("WebGL 2 not available for the browser!")
+    }
+    return gl;
+}
+
 const createProgramUsingShaders = (gl: WebGL2RenderingContext, vertexShaderSource: string, fragmentShaderSource: string) => {
     const vertexShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
     const fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource);
     return createProgram(gl, vertexShader, fragmentShader);
 }
 
-const main = () => {
-    const canvas = canvasElementOrFail(config, elementByIdOrFail("glCanvas"));
-    const gl = canvas.getContext("webgl2");
-    if (gl === null) {
-        throw new Error("WebGL 2 not available for the browser!")
-    }
-
+const drawTriangle = (gl: WebGL2RenderingContext, positions: number[]) => {
     const program = createProgramUsingShaders(gl, vertexShaderSource, fragmentShaderSource);
     const positionAttributeLocation = gl.getAttribLocation(program, "a_position");
     const positionBuffer = gl.createBuffer();
 
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-
-    const positions = [
-        0, 0,
-        0, 0.5,
-        0.7, 0
-    ];
 
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
 
@@ -142,6 +139,15 @@ const main = () => {
     const drawOffset = 0;
     const count = 3;
     gl.drawArrays(mode, drawOffset, count);
+}
+
+const main = () => {
+    const gl = initWebGLContext("glCanvas");
+    drawTriangle(gl, [
+        0, 0,
+        0, 0.5,
+        0.7, 0
+    ]);
 }
 
 main();
