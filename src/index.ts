@@ -1,5 +1,5 @@
 import {main} from "./main/main";
-import {config} from "./webgl/renderer/state";
+import {config} from "./webgl/state";
 
 const canvasElementOrFail = (canvasElement: HTMLElement): HTMLCanvasElement => {
     if (canvasElement instanceof HTMLCanvasElement) {

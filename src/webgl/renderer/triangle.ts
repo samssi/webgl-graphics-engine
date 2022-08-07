@@ -1,5 +1,5 @@
-import {createProgramUsingShaders} from "./webgl";
-import {config} from "./state";
+import {createProgramUsingShaders} from "../webgl";
+import {config} from "../state";
 
 const vertexShaderSource = `#version 300 es
 
