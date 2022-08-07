@@ -1,24 +1,29 @@
+export interface Config {
+    gl: WebGL2RenderingContext;
+    canvasConfig: CanvasConfig;
+}
+
 export interface CanvasConfig {
     width: number;
     height: number;
+    depth: number;
 }
 
-export const config = (() => {
-    let canvasConfig: CanvasConfig = {
-        width: 800,
-        height: 600
-    };
-    const reconfigure = (config: CanvasConfig) => {
-        canvasConfig = config;
-    }
-
+export const applicationState = (() => {
+    let currentConfig: Config;
 
     return {
-        canvasConfig(): CanvasConfig {
-            return canvasConfig;
+        init(config: Config): void {
+            currentConfig = config;
         },
-        updateCanvasConfig(config: CanvasConfig): void {
-            reconfigure(config);
+        gl(): WebGL2RenderingContext {
+            return currentConfig.gl;
+        },
+        currentConfig(): Config {
+            return currentConfig;
+        },
+        canvasConfig(): CanvasConfig {
+            return currentConfig.canvasConfig;
         }
     }
 })();

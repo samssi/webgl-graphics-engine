@@ -1,38 +1,11 @@
 import {createProgramUsingShaders} from "../webgl";
-import {config} from "../state";
+import {applicationState} from "../state";
+import {defaultFragmentShaderSource, defaultVertexShaderSource} from "./default";
 
-const vertexShaderSource = `#version 300 es
+export const drawTriangleOld = (positions: number[]) => {
+    const gl = applicationState.gl();
 
-// an attribute is an input (in) to a vertex shader.
-// It will receive data from a buffer
-in vec4 a_position;
-
-// all shaders have a main function
-void main() {
-
-  // gl_Position is a special variable a vertex shader
-  // is responsible for setting
-  gl_Position = a_position;
-}
-`
-
-const fragmentShaderSource = `#version 300 es
-
-// fragment shaders don't have a default precision so we need
-// to pick one. highp is a good default. It means "high precision"
-precision highp float;
-
-// we need to declare an output for the fragment shader
-out vec4 outColor;
-
-void main() {
-  // Just set the output to a constant redish-purple
-  outColor = vec4(1, 0, 0.5, 1);
-}
-`
-
-export const drawTriangle = (gl: WebGL2RenderingContext, positions: number[]) => {
-    const program = createProgramUsingShaders(gl, vertexShaderSource, fragmentShaderSource);
+    const program = createProgramUsingShaders(gl, defaultVertexShaderSource, defaultFragmentShaderSource);
     const positionAttributeLocation = gl.getAttribLocation(program, "a_position");
     const positionBuffer = gl.createBuffer();
 
@@ -51,7 +24,8 @@ export const drawTriangle = (gl: WebGL2RenderingContext, positions: number[]) =>
     const offset = 0;
 
     gl.vertexAttribPointer(positionAttributeLocation, size, type, normalize,stride, offset);
-    gl.viewport(0,0, config.canvasConfig().width, config.canvasConfig().height);
+
+    gl.viewport(0,0, applicationState.canvasConfig().width, applicationState.canvasConfig().height);
     gl.useProgram(program);
     gl.bindVertexArray(vertexArrayObject);
 
