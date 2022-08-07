@@ -1,4 +1,5 @@
-import {Config, createProgramUsingShaders} from "./webgl";
+import {createProgramUsingShaders} from "./webgl";
+import {config} from "./state";
 
 const vertexShaderSource = `#version 300 es
 
@@ -30,7 +31,7 @@ void main() {
 }
 `
 
-export const drawTriangle = (gl: WebGL2RenderingContext, config: Config, positions: number[]) => {
+export const drawTriangle = (gl: WebGL2RenderingContext, positions: number[]) => {
     const program = createProgramUsingShaders(gl, vertexShaderSource, fragmentShaderSource);
     const positionAttributeLocation = gl.getAttribLocation(program, "a_position");
     const positionBuffer = gl.createBuffer();
@@ -50,7 +51,7 @@ export const drawTriangle = (gl: WebGL2RenderingContext, config: Config, positio
     const offset = 0;
 
     gl.vertexAttribPointer(positionAttributeLocation, size, type, normalize,stride, offset);
-    gl.viewport(0,0, config.width, config.height);
+    gl.viewport(0,0, config.canvasConfig().width, config.canvasConfig().height);
     gl.useProgram(program);
     gl.bindVertexArray(vertexArrayObject);
 

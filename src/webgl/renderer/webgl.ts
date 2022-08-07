@@ -1,8 +1,3 @@
-export interface Config {
-    width: number;
-    height: number;
-}
-
 export const webGLEntityOrError = <T> (webGlEntity: T | null): T => {
     if (webGlEntity === null) {
         throw new Error("Failed to create WebGL entity!");

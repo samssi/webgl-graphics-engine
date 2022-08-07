@@ -1,5 +1,3 @@
-
-import {Config} from "../webgl/renderer/webgl";
 import {drawTriangle} from "../webgl/renderer/triangle";
 
 const triangle1 = [
@@ -14,9 +12,9 @@ const triangle2 = [
     0.7, 0
 ];
 
-export const main = (gl: WebGL2RenderingContext, config: Config) => {
+export const main = (gl: WebGL2RenderingContext) => {
     gl.clearColor(0,0,0,0);
     gl.clear(gl.COLOR_BUFFER_BIT);
-    drawTriangle(gl, config, triangle1);
-    drawTriangle(gl, config, triangle2);
+    drawTriangle(gl, triangle1);
+    drawTriangle(gl, triangle2);
 }
