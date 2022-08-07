@@ -80,9 +80,6 @@ export const drawTriangle = (triangle: Triangle) => {
 
     vertexAttribPointer(program, pointer);
 
-    // TODO: wrong place
-    gl.viewport(0,0, applicationState.canvasConfig().width, applicationState.canvasConfig().height);
-
     gl.useProgram(program);
     gl.bindVertexArray(vao);
 

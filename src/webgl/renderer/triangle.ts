@@ -25,7 +25,6 @@ export const drawTriangleOld = (positions: number[]) => {
 
     gl.vertexAttribPointer(positionAttributeLocation, size, type, normalize,stride, offset);
 
-    gl.viewport(0,0, applicationState.canvasConfig().width, applicationState.canvasConfig().height);
     gl.useProgram(program);
     gl.bindVertexArray(vertexArrayObject);
 
