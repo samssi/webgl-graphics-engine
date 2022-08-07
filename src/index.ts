@@ -1,4 +1,4 @@
-import {Config} from "./webgl-renderer/webgl";
+import {Config} from "./webgl/renderer/webgl";
 import {main} from "./main/main";
 
 const canvasElementOrFail = (config: Config, canvasElement: HTMLElement): HTMLCanvasElement => {
@@ -28,7 +28,7 @@ const initWebGLContext = (elementId: string): WebGL2RenderingContext => {
 }
 
 const config: Config = {
-    width: 600,
+    width: 800,
     height: 600
 }
 

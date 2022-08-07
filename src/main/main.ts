@@ -1,5 +1,6 @@
-import {drawTriangle} from "../webgl-renderer/triangle-renderer";
-import {Config} from "../webgl-renderer/webgl";
+
+import {Config} from "../webgl/renderer/webgl";
+import {drawTriangle} from "../webgl/renderer/triangle";
 
 const triangle1 = [
     0, 0,
