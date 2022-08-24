@@ -1,6 +1,11 @@
 import {applicationState} from "../state";
 import {createProgramUsingShaders} from "../webgl";
-import {defaultFragmentShaderSource, defaultVertexShaderSource, positionAttributeLocation} from "./default";
+import {
+    defaultFragmentShaderSource,
+    defaultFragmentShaderSource2,
+    defaultVertexShaderSource,
+    positionAttributeLocation
+} from "./default";
 
 export interface Vector3D {
     x: number;
@@ -11,18 +16,19 @@ export interface Vector3D {
 type Triangle = [Vector3D, Vector3D, Vector3D];
 
 const asFloat32Array = (coordinates: number[]) => new Float32Array(coordinates);
-const asWebGLVertices = (vector3D: Vector3D) => [vector3D.x / applicationState.canvasConfig().width, vector3D.y / applicationState.canvasConfig().height/*, vector3D.z / depth*/]
+// TODO: do this conversion in the shader program
+const asWebGLVertices = (vector3D: Vector3D) => [vector3D.x / applicationState.canvasConfig().width, vector3D.y / applicationState.canvasConfig().height, vector3D.z / applicationState.canvasConfig().depth]
 
 const storeBufferObjects = (triangle: Triangle) => {
     const gl = applicationState.gl();
 
-    const buffer = gl.createBuffer();
+    const positionBuffer = gl.createBuffer();
     const vertices = triangle
         .map(vector3D => asWebGLVertices(vector3D)).flat();
 
     console.log(vertices);
 
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, asFloat32Array(vertices), gl.STATIC_DRAW);
 }
 
@@ -52,13 +58,20 @@ const drawArrays = (drawArraysSettings: DrawArraysSettings) => {
     gl.drawArrays(drawArraysSettings.mode, drawArraysSettings.first, drawArraysSettings.count);
 }
 
-export const drawTriangle = (triangle: Triangle) => {
+export const drawTriangle = (triangle: Triangle, depthTest?: boolean) => {
     const gl = applicationState.gl();
 
-    const program = createProgramUsingShaders(gl, defaultVertexShaderSource, defaultFragmentShaderSource);
+    let program;
+    if (depthTest) {
+        program = createProgramUsingShaders(gl, defaultVertexShaderSource, defaultFragmentShaderSource);
+    }
+    else {
+        program = createProgramUsingShaders(gl, defaultVertexShaderSource, defaultFragmentShaderSource2);
+    }
+
     // Is in 3D the size 3?
     const pointer: VertexAttribPointer = {
-        size: 2,
+        size: 3,
         type: gl.FLOAT,
         normalize: false,
         stride: 0,
