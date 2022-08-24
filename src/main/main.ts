@@ -38,11 +38,13 @@ const triangle2: Triangle = [
     }
 ]
 
-const renderLoop = () => {
+const renderLoop = (timestamp: number) => {
+    console.log(timestamp)
     const gl = applicationState.gl();
     const triangles = applicationState.triangles();
 
     drawTriangles(triangles);
+    window.requestAnimationFrame(renderLoop)
 }
 
 export const main = () => {
@@ -59,7 +61,5 @@ export const main = () => {
 
     gl.viewport(0,0, applicationState.canvasConfig().width, applicationState.canvasConfig().height);
 
-    setInterval(() => renderLoop(), 1);
-    //drawTriangleOld(triangle1);
-    //drawTriangle(triangle2);
+    window.requestAnimationFrame(renderLoop);
 }

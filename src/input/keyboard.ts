@@ -18,9 +18,9 @@ const keyToFunctionality = (key: string): Functionality => {
     return keys.includes(key) ? keymappings[key] : "none";
 }
 
-const keyUp = (event: KeyboardEvent) => {
+const keyPress = (event: KeyboardEvent) => {
     const functionality = keyToFunctionality(event.key);
-    console.log(functionality);
+
     if (functionality === "down") {
         applicationState.setTriangles([applicationState.triangles()[0]]);
     }
@@ -38,5 +38,5 @@ const keyUp = (event: KeyboardEvent) => {
 }
 
 export const keyboardListener = () => {
-    document.addEventListener("keyup", keyUp, false);
+    document.addEventListener("keypress", keyPress, false);
 }
