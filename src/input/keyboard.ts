@@ -35,6 +35,17 @@ const keyPress = (event: KeyboardEvent) => {
         applicationState.setTriangles([newTri]);
     }
 
+    if (functionality === "up") {
+        const newTri = applicationState.triangles()[0];
+        newTri[1].x = newTri[1].x - 10;
+        applicationState.setTriangles([newTri]);
+    }
+    if (functionality === "down") {
+        const newTri = applicationState.triangles()[0];
+        newTri[1].x = newTri[1].x + 10;
+        applicationState.setTriangles([newTri]);
+    }
+
 }
 
 export const keyboardListener = () => {
