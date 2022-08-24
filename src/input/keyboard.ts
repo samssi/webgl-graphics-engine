@@ -20,38 +20,39 @@ const keyToFunctionality = (key: string): Functionality => {
 
 const keyPress = (event: KeyboardEvent) => {
     const functionality = keyToFunctionality(event.key);
+    const moveFactor = 40;
 
     if (functionality === "down") {
         applicationState.setTriangles([applicationState.triangles()[0]]);
     }
     if (functionality === "left") {
         const newTri = applicationState.triangles()[0];
-        newTri[0].x = newTri[0].x - 10;
-        newTri[1].x = newTri[1].x - 10;
-        newTri[2].x = newTri[2].x - 10;
+        newTri[0].x = newTri[0].x - moveFactor;
+        newTri[1].x = newTri[1].x - moveFactor;
+        newTri[2].x = newTri[2].x - moveFactor;
         applicationState.setTriangles([newTri]);
     }
     if (functionality === "right") {
         const newTri = applicationState.triangles()[0];
-        newTri[0].x = newTri[0].x + 10;
-        newTri[1].x = newTri[1].x + 10;
-        newTri[2].x = newTri[2].x + 10;
+        newTri[0].x = newTri[0].x + moveFactor;
+        newTri[1].x = newTri[1].x + moveFactor;
+        newTri[2].x = newTri[2].x + moveFactor;
         applicationState.setTriangles([newTri]);
     }
 
     if (functionality === "up") {
         const newTri = applicationState.triangles()[0];
-        newTri[0].y = newTri[0].y + 10;
-        newTri[1].y = newTri[1].y + 10;
-        newTri[2].y = newTri[2].y + 10;
+        newTri[0].y = newTri[0].y + moveFactor;
+        newTri[1].y = newTri[1].y + moveFactor;
+        newTri[2].y = newTri[2].y + moveFactor;
         applicationState.setTriangles([newTri]);
     }
 
     if (functionality === "down") {
         const newTri = applicationState.triangles()[0];
-        newTri[0].y = newTri[0].y - 10;
-        newTri[1].y = newTri[1].y - 10;
-        newTri[2].y = newTri[2].y - 10;
+        newTri[0].y = newTri[0].y - moveFactor;
+        newTri[1].y = newTri[1].y - moveFactor;
+        newTri[2].y = newTri[2].y - moveFactor;
         applicationState.setTriangles([newTri]);
     }
 }
