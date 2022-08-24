@@ -1,6 +1,7 @@
 import {applicationState} from "../webgl/state";
 import {drawTriangle} from "../webgl/renderer/2d";
 import {drawTriangleOld} from "../webgl/renderer/triangle";
+import {keyboardListener} from "../input/keyboard";
 
 const triangle1 = [
     0, 0,
@@ -15,6 +16,7 @@ const triangle2 = [
 ];
 
 export const main = () => {
+    keyboardListener();
     const gl = applicationState.gl();
     gl.clearColor(0,0,0,0);
     gl.clear(gl.COLOR_BUFFER_BIT);
