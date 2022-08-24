@@ -13,7 +13,7 @@ export interface Vector3D {
     z: number;
 }
 
-type Triangle = [Vector3D, Vector3D, Vector3D];
+export type Triangle = [Vector3D, Vector3D, Vector3D];
 
 const asFloat32Array = (coordinates: number[]) => new Float32Array(coordinates);
 // TODO: do this conversion in the shader program
@@ -97,4 +97,8 @@ export const drawTriangle = (triangle: Triangle, depthTest?: boolean) => {
     gl.bindVertexArray(vao);
 
     drawArrays(arraySettings);
+}
+
+export const drawTriangles = (triangles: Triangle[]) => {
+    if(triangles) triangles.forEach(triangle => drawTriangle(triangle));
 }

@@ -17,7 +17,9 @@ const keyToFunctionality = (key: string): Functionality => {
 }
 
 const keyUp = (event: KeyboardEvent) => {
-    console.log(keyToFunctionality(event.key));
+    const functionality = keyToFunctionality(event.key);
+    console.log(functionality);
+
 }
 
 export const keyboardListener = () => {

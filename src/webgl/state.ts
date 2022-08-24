@@ -1,3 +1,5 @@
+import {Triangle} from "./renderer/2d";
+
 export interface Config {
     gl: WebGL2RenderingContext;
     canvasConfig: CanvasConfig;
@@ -11,6 +13,7 @@ export interface CanvasConfig {
 
 export const applicationState = (() => {
     let currentConfig: Config;
+    let triangles: Triangle[];
 
     return {
         init(config: Config): void {
@@ -24,6 +27,12 @@ export const applicationState = (() => {
         },
         canvasConfig(): CanvasConfig {
             return currentConfig.canvasConfig;
+        },
+        triangles(): Triangle[] {
+            return triangles;
+        },
+        setTriangles(newTriangles: Triangle[]): void {
+            triangles = newTriangles;
         }
     }
 })();
