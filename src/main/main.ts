@@ -42,9 +42,6 @@ const renderLoop = () => {
     const gl = applicationState.gl();
     const triangles = applicationState.triangles();
 
-    gl.clearColor(0,0,0,0);
-    gl.clear(gl.COLOR_BUFFER_BIT);
-
     drawTriangles(triangles);
 }
 
@@ -54,12 +51,15 @@ export const main = () => {
 
     const gl = applicationState.gl();
 
+    gl.clearColor(0,0,0,0);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+
     gl.enable(gl.DEPTH_TEST);
     gl.clearDepth(0);
 
     gl.viewport(0,0, applicationState.canvasConfig().width, applicationState.canvasConfig().height);
 
-    renderLoop();
+    setInterval(() => renderLoop(), 1);
     //drawTriangleOld(triangle1);
     //drawTriangle(triangle2);
 }

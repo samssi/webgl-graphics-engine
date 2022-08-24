@@ -1,3 +1,5 @@
+import {applicationState} from "../webgl/state";
+
 type Functionality = "up" | "down" | "left" | "right" | "none";
 
 const keys = ["w" , "a" , "s" , "d"];
@@ -19,6 +21,19 @@ const keyToFunctionality = (key: string): Functionality => {
 const keyUp = (event: KeyboardEvent) => {
     const functionality = keyToFunctionality(event.key);
     console.log(functionality);
+    if (functionality === "down") {
+        applicationState.setTriangles([applicationState.triangles()[0]]);
+    }
+    if (functionality === "left") {
+        const newTri = applicationState.triangles()[0];
+        newTri[0].x = newTri[0].x - 10;
+        applicationState.setTriangles([newTri]);
+    }
+    if (functionality === "right") {
+        const newTri = applicationState.triangles()[0];
+        newTri[0].x = newTri[0].x + 10;
+        applicationState.setTriangles([newTri]);
+    }
 
 }
 
