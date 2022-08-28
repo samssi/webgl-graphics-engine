@@ -1,6 +1,5 @@
 import {applicationState} from "../webgl/state";
-
-type Functionality = "up" | "down" | "left" | "right" | "none";
+import {EventListener, Functionality, Input} from "../interface/input";
 
 const keys = ["w" , "a" , "s" , "d"];
 type Key = typeof keys[number];
@@ -18,7 +17,7 @@ const keyToFunctionality = (key: string): Functionality => {
     return keys.includes(key) ? keymappings[key] : "none";
 }
 
-const keyPress = (event: KeyboardEvent) => {
+const keyPress = (event: KeyboardEvent): void => {
     const functionality = keyToFunctionality(event.key);
     const moveFactor = 40;
 
@@ -57,6 +56,9 @@ const keyPress = (event: KeyboardEvent) => {
     }
 }
 
-export const keyboardListener = () => {
-    document.addEventListener("keypress", keyPress, false);
+export const keyboardListener: Input<KeyboardEvent> = {
+    listeners(): [EventListener<KeyboardEvent>] {
+        return [{type: "keypress", eventFunction: (event: KeyboardEvent) => {keyPress(event)}, options: false}];
+    }
+
 }

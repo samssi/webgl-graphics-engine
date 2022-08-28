@@ -1,5 +1,6 @@
 import {main} from "./main/main";
 import {applicationState} from "./webgl/state";
+import {keyboardListener} from "./input/keyboard";
 
 const canvasElementOrFail = (canvasElement: HTMLElement, width: number, height: number): HTMLCanvasElement => {
     if (canvasElement instanceof HTMLCanvasElement) {
@@ -39,7 +40,9 @@ const initWebGLContext = (elementId: string) => {
                 width,
                 height,
                 depth
-            }});
+            },
+            input: keyboardListener
+        });
 }
 
 initWebGLContext("glCanvas");

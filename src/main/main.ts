@@ -48,7 +48,11 @@ const renderLoop = (timestamp: number) => {
 }
 
 export const main = () => {
-    keyboardListener();
+    applicationState.input().listeners().forEach(listener => {
+        // @ts-ignore
+        document.addEventListener(listener.type, listener.eventFunction, listener.options);
+        }
+    );
     applicationState.setTriangles([triangle1, triangle2]);
 
     const gl = applicationState.gl();
