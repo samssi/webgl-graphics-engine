@@ -1,11 +1,11 @@
 export type Functionality = "up" | "down" | "left" | "right" | "none";
 
-export interface EventListener<K extends UIEvent> {
+export interface EventListener<InputEventType extends UIEvent> {
     type: keyof DocumentEventMap;
-    eventFunction: (event: K) => void;
+    eventFunction: (event: InputEventType) => void;
     options?: boolean;
 }
 
-export interface Input<K extends UIEvent> {
-    listeners(): [EventListener<K>];
+export interface Input<InputEventType extends UIEvent> {
+    listeners(): [EventListener<InputEventType>];
 }
