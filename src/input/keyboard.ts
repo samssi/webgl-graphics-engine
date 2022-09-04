@@ -1,4 +1,4 @@
-import {applicationState} from "../state/state";
+import {coreConfig} from "../state/coreConfig";
 import {EventListener, Functionality, Listener} from "../interface/input";
 
 const keys = ["w" , "a" , "s" , "d"];
@@ -22,37 +22,37 @@ const keyPress = (event: KeyboardEvent): void => {
     const moveFactor = 40;
 
     if (functionality === "down") {
-        applicationState.setTriangles([applicationState.triangles()[0]]);
+        coreConfig.setTriangles([coreConfig.triangles()[0]]);
     }
     if (functionality === "left") {
-        const newTri = applicationState.triangles()[0];
+        const newTri = coreConfig.triangles()[0];
         newTri[0].x = newTri[0].x - moveFactor;
         newTri[1].x = newTri[1].x - moveFactor;
         newTri[2].x = newTri[2].x - moveFactor;
-        applicationState.setTriangles([newTri]);
+        coreConfig.setTriangles([newTri]);
     }
     if (functionality === "right") {
-        const newTri = applicationState.triangles()[0];
+        const newTri = coreConfig.triangles()[0];
         newTri[0].x = newTri[0].x + moveFactor;
         newTri[1].x = newTri[1].x + moveFactor;
         newTri[2].x = newTri[2].x + moveFactor;
-        applicationState.setTriangles([newTri]);
+        coreConfig.setTriangles([newTri]);
     }
 
     if (functionality === "up") {
-        const newTri = applicationState.triangles()[0];
+        const newTri = coreConfig.triangles()[0];
         newTri[0].y = newTri[0].y + moveFactor;
         newTri[1].y = newTri[1].y + moveFactor;
         newTri[2].y = newTri[2].y + moveFactor;
-        applicationState.setTriangles([newTri]);
+        coreConfig.setTriangles([newTri]);
     }
 
     if (functionality === "down") {
-        const newTri = applicationState.triangles()[0];
+        const newTri = coreConfig.triangles()[0];
         newTri[0].y = newTri[0].y - moveFactor;
         newTri[1].y = newTri[1].y - moveFactor;
         newTri[2].y = newTri[2].y - moveFactor;
-        applicationState.setTriangles([newTri]);
+        coreConfig.setTriangles([newTri]);
     }
 }
 

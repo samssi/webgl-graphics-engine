@@ -1,5 +1,5 @@
 import {exampleProgram} from "./core/exampleProgram";
-import {applicationState} from "./state/state";
+import {coreConfig} from "./state/coreConfig";
 import {keyboardListener} from "./input/keyboard";
 
 const canvasElementOrFail = (canvasElement: HTMLElement, width: number, height: number): HTMLCanvasElement => {
@@ -33,7 +33,7 @@ const initWebGLContext = (elementId: string) => {
     const depth = 100;
     const canvas = canvasElementOrFail(elementByIdOrFail(elementId), width, height);
     const gl = webGL2ContextOrFail(canvas);
-    applicationState.init(
+    coreConfig.init(
         {
             gl,
             canvasConfig: {
@@ -41,7 +41,7 @@ const initWebGLContext = (elementId: string) => {
                 height,
                 depth
             },
-            keyboardListener: keyboardListener
+            keyboardListener
         });
 }
 

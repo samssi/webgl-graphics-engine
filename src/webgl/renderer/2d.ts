@@ -1,4 +1,4 @@
-import {applicationState} from "../../state/state";
+import {coreConfig} from "../../state/coreConfig";
 import {createProgramUsingShaders} from "../webgl";
 import {
     defaultFragmentShaderSource,
@@ -17,10 +17,10 @@ export type Triangle = [Vector3D, Vector3D, Vector3D];
 
 const asFloat32Array = (coordinates: number[]) => new Float32Array(coordinates);
 // TODO: do this conversion in the shader program
-const asWebGLVertices = (vector3D: Vector3D) => [vector3D.x / applicationState.canvasConfig().width, vector3D.y / applicationState.canvasConfig().height, vector3D.z / applicationState.canvasConfig().depth]
+const asWebGLVertices = (vector3D: Vector3D) => [vector3D.x / coreConfig.canvasConfig().width, vector3D.y / coreConfig.canvasConfig().height, vector3D.z / coreConfig.canvasConfig().depth]
 
 const storeBufferObjects = (triangle: Triangle) => {
-    const gl = applicationState.gl();
+    const gl = coreConfig.gl();
 
     const positionBuffer = gl.createBuffer();
     const vertices = triangle
@@ -47,19 +47,19 @@ interface DrawArraysSettings {
 }
 
 const vertexAttribPointer = (program: WebGLProgram, vertexAttribPointer: VertexAttribPointer) => {
-    const gl = applicationState.gl();
+    const gl = coreConfig.gl();
 
     gl.vertexAttribPointer(positionAttributeLocation(program), vertexAttribPointer.size, vertexAttribPointer.type, vertexAttribPointer.normalize, vertexAttribPointer.stride, vertexAttribPointer.offset);
 }
 
 const drawArrays = (drawArraysSettings: DrawArraysSettings) => {
-    const gl = applicationState.gl();
+    const gl = coreConfig.gl();
 
     gl.drawArrays(drawArraysSettings.mode, drawArraysSettings.first, drawArraysSettings.count);
 }
 
 export const drawTriangle = (triangle: Triangle, depthTest?: boolean) => {
-    const gl = applicationState.gl();
+    const gl = coreConfig.gl();
 
     let program;
     if (depthTest) {

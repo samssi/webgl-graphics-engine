@@ -1,6 +1,6 @@
-import {applicationState} from "../../state/state";
+import {coreConfig} from "../../state/coreConfig";
 
-export const positionAttributeLocation = (program: WebGLProgram) => applicationState.gl().getAttribLocation(program, "a_position");
+export const positionAttributeLocation = (program: WebGLProgram) => coreConfig.gl().getAttribLocation(program, "a_position");
 
 export const defaultVertexShaderSource = `#version 300 es
 

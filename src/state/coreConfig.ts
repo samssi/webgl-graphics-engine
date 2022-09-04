@@ -1,10 +1,9 @@
 import {Triangle} from "../webgl/renderer/2d";
 import {Listener} from "../interface/input";
 
-export interface Config {
+export interface CoreConfig {
     gl: WebGL2RenderingContext;
     canvasConfig: CanvasConfig;
-    // TODO: temp. All state will be stored in dict structure
     keyboardListener: Listener<KeyboardEvent>;
 }
 
@@ -14,12 +13,12 @@ export interface CanvasConfig {
     depth: number;
 }
 
-export const applicationState = (() => {
-    let currentConfig: Config;
+export const coreConfig = (() => {
+    let currentConfig: CoreConfig;
     let triangles: Triangle[];
 
     return {
-        init(config: Config): void {
+        init(config: CoreConfig): void {
             currentConfig = config;
         },
         gl(): WebGL2RenderingContext {

@@ -1,9 +1,9 @@
 import {createProgramUsingShaders} from "../webgl";
-import {applicationState} from "../../state/state";
+import {coreConfig} from "../../state/coreConfig";
 import {defaultFragmentShaderSource, defaultVertexShaderSource} from "./default";
 
 export const drawTriangleOld = (positions: number[]) => {
-    const gl = applicationState.gl();
+    const gl = coreConfig.gl();
 
     const program = createProgramUsingShaders(gl, defaultVertexShaderSource, defaultFragmentShaderSource);
     const positionAttributeLocation = gl.getAttribLocation(program, "a_position");
