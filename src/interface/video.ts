@@ -6,6 +6,10 @@ export interface Vector3D {
 
 export type Triangle = [Vector3D, Vector3D, Vector3D];
 
-interface Video {
-    drawTriangles(triangles: Triangle[]): void;
+// TODO: Next version will contain entities
+export interface Entity {
+    entity: Triangle[];
+    translation: Vector3D[];
+    rotation: Vector3D[];
+    scale: Vector3D[];
 }

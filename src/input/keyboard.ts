@@ -18,6 +18,7 @@ const keyToFunctionality = (key: string): Functionality => {
     return keys.includes(key) ? keymappings[key] : "none";
 }
 
+// TODO: to be updated to use entities instead of basic tris
 const keyPress = (event: KeyboardEvent): void => {
     const functionality = keyToFunctionality(event.key);
     const moveFactor = 40;
