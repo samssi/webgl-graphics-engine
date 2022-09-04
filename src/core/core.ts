@@ -1,12 +1,13 @@
 import {coreConfig} from "../state/coreConfig";
 import {applicationState} from "../state/applicationState";
-import {drawTriangles} from "../webgl/webgl";
+import {drawEntity} from "../webgl/webgl";
+import {defaultFragmentShaderSource, defaultVertexShaderSource} from "../webgl/shaderSource";
 
 const renderLoop = (timestamp: number) => {
     console.log(timestamp)
     const triangles = applicationState.triangles();
 
-    drawTriangles(triangles);
+    drawEntity(triangles, defaultVertexShaderSource, defaultFragmentShaderSource);
     window.requestAnimationFrame(renderLoop)
 }
 

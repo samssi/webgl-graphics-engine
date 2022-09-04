@@ -121,7 +121,7 @@ const drawTriangle = (triangle: Triangle, program: WebGLProgram) => {
     drawArrays(arraySettings);
 }
 
-export const drawTriangles = (triangles: Triangle[]) => {
-    const program = createProgramUsingShaders(defaultVertexShaderSource, defaultFragmentShaderSource);
+export const drawEntity = (triangles: Triangle[], vertexShaderSource: string, fragmentShaderSource: string) => {
+    const program = createProgramUsingShaders(vertexShaderSource, fragmentShaderSource);
     if(triangles) triangles.forEach(triangle => drawTriangle(triangle, program));
 }
