@@ -1,5 +1,5 @@
 import {applicationState} from "../webgl/state";
-import {EventListener, Functionality, Input} from "../interface/input";
+import {EventListener, Functionality, Listener} from "../interface/input";
 
 const keys = ["w" , "a" , "s" , "d"];
 type Key = typeof keys[number];
@@ -56,9 +56,8 @@ const keyPress = (event: KeyboardEvent): void => {
     }
 }
 
-export const keyboardListener: Input<KeyboardEvent> = {
+export const keyboardListener: Listener<KeyboardEvent> = {
     listeners(): [EventListener<KeyboardEvent>] {
         return [{type: "keypress", eventFunction: (event: KeyboardEvent) => {keyPress(event)}, options: false}];
     }
-
 }

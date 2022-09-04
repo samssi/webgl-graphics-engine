@@ -1,11 +1,11 @@
 import {Triangle} from "./renderer/2d";
-import {Input} from "../interface/input";
+import {Listener} from "../interface/input";
 
 export interface Config {
     gl: WebGL2RenderingContext;
     canvasConfig: CanvasConfig;
     // TODO: temp. All state will be stored in dict structure
-    input: Input<KeyboardEvent>;
+    keyboardListener: Listener<KeyboardEvent>;
 }
 
 export interface CanvasConfig {
@@ -34,8 +34,8 @@ export const applicationState = (() => {
         setTriangles(newTriangles: Triangle[]): void {
             triangles = newTriangles;
         },
-        input(): Input<KeyboardEvent> {
-            return currentConfig.input;
+        keyboardInput(): Listener<KeyboardEvent> {
+            return currentConfig.keyboardListener;
         }
     }
 })();

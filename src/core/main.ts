@@ -1,6 +1,5 @@
 import {applicationState} from "../webgl/state";
-import {drawTriangle, drawTriangles, Triangle} from "../webgl/renderer/2d";
-import {keyboardListener} from "../input/keyboard";
+import {drawTriangles, Triangle} from "../webgl/renderer/2d";
 
 const triangle1: Triangle = [
     {
@@ -48,7 +47,7 @@ const renderLoop = (timestamp: number) => {
 }
 
 export const main = () => {
-    applicationState.input().listeners().forEach(listener => {
+    applicationState.keyboardInput().listeners().forEach(listener => {
         // @ts-ignore
         document.addEventListener(listener.type, listener.eventFunction, listener.options);
         }

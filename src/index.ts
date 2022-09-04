@@ -1,4 +1,4 @@
-import {main} from "./main/main";
+import {main} from "./core/main";
 import {applicationState} from "./webgl/state";
 import {keyboardListener} from "./input/keyboard";
 
@@ -41,7 +41,7 @@ const initWebGLContext = (elementId: string) => {
                 height,
                 depth
             },
-            input: keyboardListener
+            keyboardListener: keyboardListener
         });
 }
 

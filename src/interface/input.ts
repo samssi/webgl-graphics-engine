@@ -6,6 +6,6 @@ export interface EventListener<InputEventType extends UIEvent> {
     options?: boolean;
 }
 
-export interface Input<InputEventType extends UIEvent> {
+export interface Listener<InputEventType extends UIEvent> {
     listeners(): [EventListener<InputEventType>];
 }
