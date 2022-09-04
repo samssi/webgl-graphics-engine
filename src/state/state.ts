@@ -1,4 +1,4 @@
-import {Triangle} from "./renderer/2d";
+import {Triangle} from "../webgl/renderer/2d";
 import {Listener} from "../interface/input";
 
 export interface Config {

@@ -1,5 +1,5 @@
 import {createProgramUsingShaders} from "../webgl";
-import {applicationState} from "../state";
+import {applicationState} from "../../state/state";
 import {defaultFragmentShaderSource, defaultVertexShaderSource} from "./default";
 
 export const drawTriangleOld = (positions: number[]) => {

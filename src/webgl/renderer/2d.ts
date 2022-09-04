@@ -1,4 +1,4 @@
-import {applicationState} from "../state";
+import {applicationState} from "../../state/state";
 import {createProgramUsingShaders} from "../webgl";
 import {
     defaultFragmentShaderSource,

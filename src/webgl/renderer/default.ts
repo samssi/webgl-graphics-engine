@@ -1,4 +1,4 @@
-import {applicationState} from "../state";
+import {applicationState} from "../../state/state";
 
 export const positionAttributeLocation = (program: WebGLProgram) => applicationState.gl().getAttribLocation(program, "a_position");
 

@@ -1,4 +1,4 @@
-import {applicationState} from "../webgl/state";
+import {applicationState} from "../state/state";
 import {drawTriangles, Triangle} from "../webgl/renderer/2d";
 
 const triangle1: Triangle = [

@@ -1,4 +1,4 @@
-import {applicationState} from "../webgl/state";
+import {applicationState} from "../state/state";
 import {EventListener, Functionality, Listener} from "../interface/input";
 
 const keys = ["w" , "a" , "s" , "d"];

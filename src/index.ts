@@ -1,5 +1,5 @@
 import {main} from "./core/main";
-import {applicationState} from "./webgl/state";
+import {applicationState} from "./state/state";
 import {keyboardListener} from "./input/keyboard";
 
 const canvasElementOrFail = (canvasElement: HTMLElement, width: number, height: number): HTMLCanvasElement => {
