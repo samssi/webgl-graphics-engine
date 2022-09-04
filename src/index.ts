@@ -1,4 +1,4 @@
-import {main} from "./core/main";
+import {exampleProgram} from "./core/exampleProgram";
 import {applicationState} from "./state/state";
 import {keyboardListener} from "./input/keyboard";
 
@@ -46,5 +46,5 @@ const initWebGLContext = (elementId: string) => {
 }
 
 initWebGLContext("glCanvas");
-main();
+exampleProgram();
 

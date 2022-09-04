@@ -1,41 +1,5 @@
 import {applicationState} from "../state/state";
-import {drawTriangles, Triangle} from "../webgl/renderer/2d";
-
-const triangle1: Triangle = [
-    {
-        x: -70,
-        y: 400,
-        z: 0
-    },
-    {
-        x: 390,
-        y: 0,
-        z: 0
-    },
-    {
-        x: -10,
-        y: 0,
-        z: 0
-    }
-];
-
-const triangle2: Triangle = [
-    {
-        x: 0,
-        y: 400,
-        z: 1
-    },
-    {
-        x: 400,
-        y: 0,
-        z: 1
-    },
-    {
-        x: 0,
-        y: 0,
-        z: 1
-    }
-]
+import {drawTriangles} from "../webgl/renderer/2d";
 
 const renderLoop = (timestamp: number) => {
     console.log(timestamp)
@@ -46,14 +10,12 @@ const renderLoop = (timestamp: number) => {
     window.requestAnimationFrame(renderLoop)
 }
 
-export const main = () => {
+export const run = () => {
     applicationState.keyboardInput().listeners().forEach(listener => {
-        // @ts-ignore
-        document.addEventListener(listener.type, listener.eventFunction, listener.options);
+            // @ts-ignore
+            document.addEventListener(listener.type, listener.eventFunction, listener.options);
         }
     );
-    applicationState.setTriangles([triangle1, triangle2]);
-
     const gl = applicationState.gl();
 
     gl.clearColor(0,0,0,0);
