@@ -1,6 +1,11 @@
-import {Triangle} from "../webgl/renderer/2d";
+export interface Vector3D {
+    x: number;
+    y: number;
+    z: number;
+}
+
+export type Triangle = [Vector3D, Vector3D, Vector3D];
 
 interface Video {
-    drawTriangle(triangle: Triangle): void;
     drawTriangles(triangles: Triangle[]): void;
 }

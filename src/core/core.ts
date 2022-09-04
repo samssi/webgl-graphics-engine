@@ -1,10 +1,9 @@
 import {coreConfig} from "../state/coreConfig";
-import {drawTriangles} from "../webgl/renderer/2d";
 import {applicationState} from "../state/applicationState";
+import {drawTriangles} from "../webgl/webgl";
 
 const renderLoop = (timestamp: number) => {
     console.log(timestamp)
-    const gl = coreConfig.gl();
     const triangles = applicationState.triangles();
 
     drawTriangles(triangles);

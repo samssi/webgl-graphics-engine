@@ -1,4 +1,4 @@
-import {coreConfig} from "../../state/coreConfig";
+import {coreConfig} from "../state/coreConfig";
 
 export const positionAttributeLocation = (program: WebGLProgram) => coreConfig.gl().getAttribLocation(program, "a_position");
 

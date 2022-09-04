@@ -1,6 +1,7 @@
-import {Triangle} from "../webgl/renderer/2d";
-import {run} from "./core";
+
+import {run} from "../core/core";
 import {applicationState} from "../state/applicationState";
+import {Triangle} from "../interface/video";
 
 const triangle1: Triangle = [
     {

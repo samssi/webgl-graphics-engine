@@ -1,4 +1,5 @@
-import {Triangle} from "../webgl/renderer/2d";
+import {Triangle} from "../interface/video";
+
 
 export const applicationState = (() => {
     let triangles: Triangle[] = [];

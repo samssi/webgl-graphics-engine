@@ -1,4 +1,3 @@
-import {Triangle} from "../webgl/renderer/2d";
 import {Listener} from "../interface/input";
 
 export interface CoreConfig {

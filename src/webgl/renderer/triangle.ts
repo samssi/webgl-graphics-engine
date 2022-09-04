@@ -1,11 +1,12 @@
+// TODO: remove me when comfortable with the new implementation
 import {createProgramUsingShaders} from "../webgl";
 import {coreConfig} from "../../state/coreConfig";
-import {defaultFragmentShaderSource, defaultVertexShaderSource} from "./default";
+import {defaultFragmentShaderSource, defaultVertexShaderSource} from "../shaderSource";
 
 export const drawTriangleOld = (positions: number[]) => {
     const gl = coreConfig.gl();
 
-    const program = createProgramUsingShaders(gl, defaultVertexShaderSource, defaultFragmentShaderSource);
+    const program = createProgramUsingShaders(defaultVertexShaderSource, defaultFragmentShaderSource);
     const positionAttributeLocation = gl.getAttribLocation(program, "a_position");
     const positionBuffer = gl.createBuffer();
 

@@ -1,4 +1,4 @@
-import {exampleProgram} from "./core/exampleProgram";
+import {exampleProgram} from "./examples/exampleProgram";
 import {coreConfig} from "./state/coreConfig";
 import {keyboardListener} from "./input/keyboard";
 
