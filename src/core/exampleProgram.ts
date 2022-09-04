@@ -1,6 +1,6 @@
-import {coreConfig} from "../state/coreConfig";
 import {Triangle} from "../webgl/renderer/2d";
 import {run} from "./core";
+import {applicationState} from "../state/applicationState";
 
 const triangle1: Triangle = [
     {
@@ -41,6 +41,6 @@ const triangle2: Triangle = [
 
 
 export const exampleProgram = () => {
-    coreConfig.setTriangles([triangle1, triangle2]);
+    applicationState.updateTriangles([triangle1, triangle2]);
     run();
 }

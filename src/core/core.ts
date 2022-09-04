@@ -1,10 +1,11 @@
 import {coreConfig} from "../state/coreConfig";
 import {drawTriangles} from "../webgl/renderer/2d";
+import {applicationState} from "../state/applicationState";
 
 const renderLoop = (timestamp: number) => {
     console.log(timestamp)
     const gl = coreConfig.gl();
-    const triangles = coreConfig.triangles();
+    const triangles = applicationState.triangles();
 
     drawTriangles(triangles);
     window.requestAnimationFrame(renderLoop)

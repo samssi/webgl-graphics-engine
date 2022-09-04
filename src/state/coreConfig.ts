@@ -15,7 +15,6 @@ export interface CanvasConfig {
 
 export const coreConfig = (() => {
     let currentConfig: CoreConfig;
-    let triangles: Triangle[];
 
     return {
         init(config: CoreConfig): void {
@@ -26,12 +25,6 @@ export const coreConfig = (() => {
         },
         canvasConfig(): CanvasConfig {
             return currentConfig.canvasConfig;
-        },
-        triangles(): Triangle[] {
-            return triangles;
-        },
-        setTriangles(newTriangles: Triangle[]): void {
-            triangles = newTriangles;
         },
         keyboardInput(): Listener<KeyboardEvent> {
             return currentConfig.keyboardListener;
