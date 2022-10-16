@@ -1,3 +1,5 @@
+import {Descriptor} from "../state/applicationState";
+
 export interface Vector3D {
     x: number;
     y: number;
@@ -15,6 +17,7 @@ export interface Transform {
 
 // TODO: Next version will contain entities
 export interface Entity {
-    entity: Triangle[];
+    descriptor: Descriptor;
+    entity: Triangle;
     transform: Transform;
 }

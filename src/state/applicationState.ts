@@ -1,16 +1,26 @@
-import {Triangle} from "../interface/video";
+import {Entity, Triangle} from "../interface/video";
 
+export type Descriptor = string
+export type EntityMap = Map<Descriptor, Entity>
 
 export const applicationState = (() => {
-    // TODO: objects and objectsToDraw as separate storages
-    let triangles: Triangle[] = [];
+    let entityMap: EntityMap = new Map();
 
     return {
-        updateTriangles(newTriangles: Triangle[]): void {
-            triangles = newTriangles;
+        updateEntity(updateEntity: Entity): void {
+            entityMap.set(updateEntity.descriptor, updateEntity);
         },
+        getEntity(descriptor: Descriptor): Entity {
+            const entity = entityMap.get(descriptor);
+            if (!entity) {
+                throw new Error("Reference to non existing entity!")
+            }
+            return structuredClone(entity);
+        },
+        // TODO: add correct position, rotation and scale calculations for the triangle points
         triangles(): Triangle[] {
-            return structuredClone(triangles);
+            const entities = structuredClone(Array.from(entityMap.values()));
+            return entities.map(entity => entity.entity)
         }
     }
 })();

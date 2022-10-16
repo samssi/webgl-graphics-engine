@@ -1,6 +1,6 @@
-import {coreConfig} from "../state/coreConfig";
 import {EventListener, Functionality, Listener} from "../interface/input";
 import {applicationState} from "../state/applicationState";
+import {Vector3D} from "../interface/video";
 
 const keys = ["w" , "a" , "s" , "d"];
 type Key = typeof keys[number];
@@ -18,44 +18,62 @@ const keyToFunctionality = (key: string): Functionality => {
     return keys.includes(key) ? keymappings[key] : "none";
 }
 
+const sum = (current: Vector3D[], change: Vector3D): Vector3D[] => {
+    return current.map(vector3D => ({
+        x: vector3D.x + change.x,
+        y: vector3D.y + change.y,
+        z: vector3D.z + change.z
+    }))
+}
+
 // TODO: to be updated to use entities instead of basic tris
 const keyPress = (event: KeyboardEvent): void => {
     const functionality = keyToFunctionality(event.key);
     const moveFactor = 40;
+    const tempEntityDescriptor = "test1"
+    const entity = applicationState.getEntity(tempEntityDescriptor);
 
-    if (functionality === "down") {
-        applicationState.updateTriangles([applicationState.triangles()[0]]);
-    }
     if (functionality === "left") {
-        const newTri = applicationState.triangles()[0];
-        newTri[0].x = newTri[0].x - moveFactor;
-        newTri[1].x = newTri[1].x - moveFactor;
-        newTri[2].x = newTri[2].x - moveFactor;
-        applicationState.updateTriangles([newTri]);
+        const newPosition = entity.transform.position;
+        sum(newPosition, {
+            x: -moveFactor,
+            y: 0,
+            z: 0
+        })
+
+        applicationState.updateEntity(entity);
     }
-    if (functionality === "right") {
-        const newTri = applicationState.triangles()[0];
-        newTri[0].x = newTri[0].x + moveFactor;
-        newTri[1].x = newTri[1].x + moveFactor;
-        newTri[2].x = newTri[2].x + moveFactor;
-        applicationState.updateTriangles([newTri]);
+    if (functionality === "none") {
+        return;
+    }
+
+   if (functionality === "right") {
+        const newPosition = entity.transform.position;
+        sum(newPosition, {
+            x: moveFactor,
+            y: 0,
+            z: 0
+        })
     }
 
     if (functionality === "up") {
-        const newTri = applicationState.triangles()[0];
-        newTri[0].y = newTri[0].y + moveFactor;
-        newTri[1].y = newTri[1].y + moveFactor;
-        newTri[2].y = newTri[2].y + moveFactor;
-        applicationState.updateTriangles([newTri]);
+        const newPosition = entity.transform.position;
+        sum(newPosition, {
+            x: 0,
+            y: moveFactor,
+            z: 0
+        });
     }
 
     if (functionality === "down") {
-        const newTri = applicationState.triangles()[0];
-        newTri[0].y = newTri[0].y - moveFactor;
-        newTri[1].y = newTri[1].y - moveFactor;
-        newTri[2].y = newTri[2].y - moveFactor;
-        applicationState.updateTriangles([newTri]);
+        const newPosition = entity.transform.position;
+        sum(newPosition, {
+            x: 0,
+            y: -moveFactor,
+            z: 0
+        });
     }
+    applicationState.updateEntity(entity);
 }
 
 export const keyboardListener: Listener<KeyboardEvent> = {

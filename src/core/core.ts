@@ -4,7 +4,6 @@ import {drawEntity} from "../webgl/webgl";
 import {defaultFragmentShaderSource, defaultVertexShaderSource} from "../webgl/shaderSource";
 
 const renderLoop = (timestamp: number) => {
-    console.log(timestamp)
     const triangles = applicationState.triangles();
 
     drawEntity(triangles, defaultVertexShaderSource, defaultFragmentShaderSource);

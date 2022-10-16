@@ -1,10 +1,10 @@
 
 import {run} from "../core/core";
 import {applicationState} from "../state/applicationState";
-import {Triangle} from "../interface/video";
+import {Entity} from "../interface/video";
 
-const triangle1: Triangle = [
-    {
+const test1: Entity = {
+    entity: [{
         x: -70,
         y: 400,
         z: 0
@@ -18,30 +18,23 @@ const triangle1: Triangle = [
         x: -10,
         y: 0,
         z: 0
+    }],
+    descriptor: "test1",
+    transform: {
+        position: [{
+            x: 0,
+            y: 0,
+            z: 0
+        }]
+        ,
+        rotation: [],
+        scale: []
     }
-];
-
-const triangle2: Triangle = [
-    {
-        x: 0,
-        y: 400,
-        z: 1
-    },
-    {
-        x: 400,
-        y: 0,
-        z: 1
-    },
-    {
-        x: 0,
-        y: 0,
-        z: 1
-    }
-]
+};
 
 
 
 export const exampleProgram = () => {
-    applicationState.updateTriangles([triangle1, triangle2]);
+    applicationState.updateEntity(test1);
     run();
 }
