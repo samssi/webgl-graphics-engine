@@ -17,10 +17,10 @@ export const applicationState = (() => {
             }
             return structuredClone(entity);
         },
-        // TODO: add correct position, rotation and scale calculations for the triangle points
-        triangles(): Triangle[] {
-            const entities = structuredClone(Array.from(entityMap.values()));
-            return entities.map(entity => entity.entity)
+        entities(): Entity[] {
+            // TODO: descriptors (map key) will be used to control with descriptor lists which entities are drawn and which are not
+            // TODO: and with which shader they are drawn
+            return structuredClone(Array.from(entityMap.values()))
         }
     }
 })();

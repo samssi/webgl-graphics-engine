@@ -33,6 +33,7 @@ const keyPress = (event: KeyboardEvent): void => {
     const tempEntityDescriptor = "test1"
     const entity = applicationState.getEntity(tempEntityDescriptor);
 
+    /*
     if (functionality === "left") {
         const newPosition = entity.transform.position;
         sum(newPosition, {
@@ -73,7 +74,7 @@ const keyPress = (event: KeyboardEvent): void => {
             z: 0
         });
     }
-    applicationState.updateEntity(entity);
+    applicationState.updateEntity(entity);*/
 }
 
 export const keyboardListener: Listener<KeyboardEvent> = {

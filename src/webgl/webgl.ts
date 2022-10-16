@@ -1,10 +1,6 @@
 import {coreConfig} from "../state/coreConfig";
-import {Triangle, Vector3D} from "../interface/video";
-import {
-    defaultFragmentShaderSource,
-    defaultVertexShaderSource,
-    positionAttributeLocation
-} from "./shaderSource";
+import {Entity, Triangle, Vector3D} from "../interface/video";
+import {positionAttributeLocation} from "./shaderSource";
 
 interface VertexAttribPointer {
     size: number,
@@ -106,7 +102,23 @@ const drawTriangle = (triangle: Triangle, program: WebGLProgram) => {
     gl.drawArrays(arraySettings.mode, arraySettings.first, arraySettings.count);
 }
 
-export const drawEntity = (triangles: Triangle[], vertexShaderSource: string, fragmentShaderSource: string) => {
+const drawTriangles = (triangles: Triangle[], vertexShaderSource: string, fragmentShaderSource: string): void => {
     const program = createProgramUsingShaders(vertexShaderSource, fragmentShaderSource);
-    if(triangles) triangles.forEach(triangle => drawTriangle(triangle, program));
+    if (triangles) triangles.forEach(triangle => drawTriangle(triangle, program));
+}
+
+export const drawEntities = (entities: Entity[], vertexShaderSource: string, fragmentShaderSource: string): void => {
+    if (entities) {
+        const triangles = entities.map<Triangle>(entity => {
+           const points = entity.points;
+           const position = entity.transform.position;
+            return points.map<Vector3D>(point => ({
+                x: point.x + position.x,
+                y: point.y + position.y,
+                z: point.z + position.z
+            })) as Triangle
+        });
+
+        drawTriangles(triangles, vertexShaderSource, fragmentShaderSource);
+    }
 }
