@@ -2,6 +2,7 @@ import {Triangle} from "../interface/video";
 
 
 export const applicationState = (() => {
+    // TODO: objects and objectsToDraw as separate storages
     let triangles: Triangle[] = [];
 
     return {
