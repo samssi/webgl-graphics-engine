@@ -65,29 +65,9 @@ export const createProgramUsingShaders = (vertexShaderSource: string, fragmentSh
 const asWebGLVertices = (vector3D: Vector3D) => [vector3D.x / coreConfig.canvasConfig().width, vector3D.y / coreConfig.canvasConfig().height, vector3D.z / coreConfig.canvasConfig().depth]
 const asFloat32Array = (coordinates: number[]) => new Float32Array(coordinates);
 
-const storeBufferObjects = (triangle: Triangle) => {
-    const gl = coreConfig.gl();
-
-    const positionBuffer = gl.createBuffer();
-    const vertices = triangle
+const asStoreBufferObjects = (triangle: Triangle): number[] => {
+    return triangle
         .map(vector3D => asWebGLVertices(vector3D)).flat();
-
-    console.log(vertices);
-
-    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, asFloat32Array(vertices), gl.STATIC_DRAW);
-}
-
-const vertexAttribPointer = (program: WebGLProgram, vertexAttribPointer: VertexAttribPointer) => {
-    const gl = coreConfig.gl();
-
-    gl.vertexAttribPointer(positionAttributeLocation(program), vertexAttribPointer.size, vertexAttribPointer.type, vertexAttribPointer.normalize, vertexAttribPointer.stride, vertexAttribPointer.offset);
-}
-
-const drawArrays = (drawArraysSettings: DrawArraysSettings) => {
-    const gl = coreConfig.gl();
-
-    gl.drawArrays(drawArraysSettings.mode, drawArraysSettings.first, drawArraysSettings.count);
 }
 
 const drawTriangle = (triangle: Triangle, program: WebGLProgram) => {
@@ -109,16 +89,21 @@ const drawTriangle = (triangle: Triangle, program: WebGLProgram) => {
         count: 3
     }
 
-    storeBufferObjects(triangle);
+    const storeBufferObjects = asStoreBufferObjects(triangle);
+    const positionBuffer = gl.createBuffer();
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, asFloat32Array(storeBufferObjects), gl.STATIC_DRAW);
+
     gl.bindVertexArray(vao);
     gl.enableVertexAttribArray(positionAttributeLocation(program));
 
-    vertexAttribPointer(program, pointer);
+    gl.vertexAttribPointer(positionAttributeLocation(program), pointer.size, pointer.type, pointer.normalize, pointer.stride, pointer.offset);
 
     gl.useProgram(program);
     gl.bindVertexArray(vao);
 
-    drawArrays(arraySettings);
+    gl.drawArrays(arraySettings.mode, arraySettings.first, arraySettings.count);
 }
 
 export const drawEntity = (triangles: Triangle[], vertexShaderSource: string, fragmentShaderSource: string) => {
