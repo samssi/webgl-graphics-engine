@@ -6,6 +6,7 @@ import {
     resolutionUniformLocation, rotationUniformLocation,
     translationUniformLocation
 } from "./shaderSource";
+import {rollover} from "./wgl-math";
 
 interface VertexAttribPointer {
     size: number,
@@ -71,7 +72,7 @@ const asStoreBufferObjects = (entity: Entity): number[] => {
 }
 
 const degreesToGlRotation = (degrees: Degrees): Vector2D => {
-    const angleInDegrees = 360 - degrees;
+    const angleInDegrees = 360 - rollover(degrees, 0, 360);
     const angleInRadians = angleInDegrees * Math.PI / 180;
     return { x: Math.sin(angleInRadians), y: Math.cos(angleInRadians) }
 }
