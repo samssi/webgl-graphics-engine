@@ -1,6 +1,6 @@
 import {coreConfig} from "../state/coreConfig";
 import {Entity, Triangle, Vector2D, Vector3D} from "../interface/video";
-import {positionAttributeLocation, resolutionUniformLocation} from "./shaderSource";
+import {colorUniformLocation, positionAttributeLocation, resolutionUniformLocation} from "./shaderSource";
 
 interface VertexAttribPointer {
     size: number,
@@ -111,6 +111,8 @@ const drawEntity= (entity: Entity, program: WebGLProgram) => {
     gl.useProgram(program);
 
     gl.uniform2f(resolutionUniformLocation(program), coreConfig.canvasConfig().width, coreConfig.canvasConfig().height)
+    gl.uniform4f(colorUniformLocation(program), 0.4, 0.4, 0.4, 1);
+
     gl.bindVertexArray(vao);
 
     gl.drawArrays(arraySettings.mode, arraySettings.first, arraySettings.count);

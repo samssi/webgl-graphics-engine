@@ -2,6 +2,7 @@ import {coreConfig} from "../state/coreConfig";
 
 export const positionAttributeLocation = (program: WebGLProgram) => coreConfig.gl().getAttribLocation(program, "a_position");
 export const resolutionUniformLocation = (program: WebGLProgram) => coreConfig.gl().getUniformLocation(program, "u_resolution")
+export const colorUniformLocation = (program: WebGLProgram) => coreConfig.gl().getUniformLocation(program, "u_color")
 
 export const defaultVertexShaderSource = `#version 300 es
 
@@ -26,16 +27,12 @@ void main() {
 `
 
 export const defaultFragmentShaderSource = `#version 300 es
-
-// fragment shaders don't have a default precision so we need
-// to pick one. highp is a good default. It means "high precision"
 precision highp float;
-
-// we need to declare an output for the fragment shader
-out vec4 outColor;
-
-void main() {
-  // Just set the output to a constant redish-purple
-  outColor = vec4(1, 0, 0.5, 1);
-}
+ 
+  uniform vec4 u_color;
+  out vec4 fragColor;
+ 
+  void main() {
+    fragColor = u_color;
+  }
 `
