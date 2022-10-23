@@ -1,7 +1,7 @@
 
 import {run} from "../core/core";
 import {applicationState} from "../state/applicationState";
-import {createTriangleWithDefaults, Entity} from "../interface/video";
+import {createQuadWithDefaults, createTriangleWithDefaults, Entity} from "../interface/video";
 
 const test1: Entity = {
     triangles: [[{
@@ -51,7 +51,8 @@ const test2: Entity = createTriangleWithDefaults("test2", [
 ])
 
 export const exampleProgram = () => {
-    applicationState.putEntity(test1);
-    applicationState.putEntity(test2)
+    // applicationState.putEntity(test1);
+    // applicationState.putEntity(test2)
+    applicationState.putEntity(createQuadWithDefaults('quad1', 200, 100))
     run();
 }

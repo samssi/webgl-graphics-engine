@@ -50,12 +50,10 @@ const quadPoints = (x: number, y: number): Triangle[] => {
     ];
 }
 
-/*
 export const createQuadWithDefaults = (descriptor: string, width: number, height: number): Entity => {
     const x = width / 2;
     const y = height / 2;
 
 
-    const trianglesForQuad = createTriangleWithDefaults(descriptor, )
+    return createTriangleWithDefaults(descriptor, quadPoints(x, y))
 }
-*/
