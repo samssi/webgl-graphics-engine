@@ -1,6 +1,6 @@
 import {EventListener, Functionality, Listener} from "../interface/input";
 import {applicationState} from "../state/applicationState";
-import {Vector3D} from "../interface/video";
+import {Vector2D, Vector3D} from "../interface/video";
 
 const keys = ["w" , "a" , "s" , "d"];
 type Key = typeof keys[number];
@@ -18,63 +18,52 @@ const keyToFunctionality = (key: string): Functionality => {
     return keys.includes(key) ? keymappings[key] : "none";
 }
 
-const sum = (current: Vector3D[], change: Vector3D): Vector3D[] => {
-    return current.map(vector3D => ({
-        x: vector3D.x + change.x,
-        y: vector3D.y + change.y,
-        z: vector3D.z + change.z
-    }))
-}
+const sum = (current: Vector2D, change: Vector2D): Vector2D => ({
+    x: current.x + change.x,
+    y: current.y + change.y
+})
 
 // TODO: to be updated to use entities instead of basic tris
 const keyPress = (event: KeyboardEvent): void => {
     const functionality = keyToFunctionality(event.key);
-    const moveFactor = 40;
-    const tempEntityDescriptor = "test1"
+    const moveFactor = 5;
+    const tempEntityDescriptor = "f-letter"
     const entity = applicationState.getEntity(tempEntityDescriptor);
 
-    /*
-    if (functionality === "left") {
-        const newPosition = entity.transform.position;
-        sum(newPosition, {
-            x: -moveFactor,
-            y: 0,
-            z: 0
-        })
-
-        applicationState.updateEntity(entity);
-    }
     if (functionality === "none") {
+        console.log('none')
         return;
     }
 
+    if (functionality === "left") {
+        entity.transform.position = sum(entity.transform.position, {
+            x: -moveFactor,
+            y: 0
+        })
+    }
+
    if (functionality === "right") {
-        const newPosition = entity.transform.position;
-        sum(newPosition, {
+       entity.transform.position = sum(entity.transform.position, {
             x: moveFactor,
-            y: 0,
-            z: 0
+            y: 0
         })
     }
 
     if (functionality === "up") {
-        const newPosition = entity.transform.position;
-        sum(newPosition, {
+        entity.transform.position = sum(entity.transform.position, {
             x: 0,
-            y: moveFactor,
-            z: 0
+            y: -moveFactor
         });
     }
 
     if (functionality === "down") {
-        const newPosition = entity.transform.position;
-        sum(newPosition, {
+        entity.transform.position = sum(entity.transform.position, {
             x: 0,
-            y: -moveFactor,
-            z: 0
+            y: moveFactor
         });
     }
-    applicationState.updateEntity(entity);*/
+
+    applicationState.putEntity(entity);
 }
 
 export const keyboardListener: Listener<KeyboardEvent> = {

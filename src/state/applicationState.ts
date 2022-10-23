@@ -1,4 +1,4 @@
-import {Entity, Triangle} from "../interface/video";
+import {Entity} from "../interface/video";
 
 export type Descriptor = string
 export type EntityMap = Map<Descriptor, Entity>
