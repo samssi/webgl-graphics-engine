@@ -1,6 +1,6 @@
 import {coreConfig} from "../state/coreConfig";
-import {Entity, Triangle, Vector3D} from "../interface/video";
-import {positionAttributeLocation} from "./shaderSource";
+import {Entity, Triangle, Vector2D, Vector3D} from "../interface/video";
+import {positionAttributeLocation, resolutionUniformLocation} from "./shaderSource";
 
 interface VertexAttribPointer {
     size: number,
@@ -58,23 +58,22 @@ export const createProgramUsingShaders = (vertexShaderSource: string, fragmentSh
 }
 
 // TODO: do this conversion in the shader program
-const asWebGLVertices = (vector3D: Vector3D) => [vector3D.x / coreConfig.canvasConfig().width, vector3D.y / coreConfig.canvasConfig().height, vector3D.z / coreConfig.canvasConfig().depth]
-const asFloat32Array = (coordinates: number[]) => new Float32Array(coordinates);
+const asWebGLVertices = (vector2D: Vector2D): number[] => [vector2D.x, vector2D.y]
+const asFloat32Array = (coordinates: number[]): Float32Array => new Float32Array(coordinates);
 
 // TODO: should I do multiplication in the shader program too?
-const multiply = (vector1: Vector3D, vector2: Vector3D): Vector3D => {
+const multiply = (vector1: Vector2D, vector2: Vector2D): Vector2D => {
     return {
         x: vector1.x + vector2.x,
-        y: vector1.y + vector2.y,
-        z: vector1.z + vector2.z,
+        y: vector1.y + vector2.y
     }
 }
 
 const asStoreBufferObjects = (entity: Entity): number[] => {
-    const vector3Ds = entity.triangles.flat()
-    return vector3Ds
-        .map(vector3D => {
-            return asWebGLVertices(multiply(vector3D, entity.transform.position));
+    const vector2Ds = entity.triangles.flat()
+    return vector2Ds
+        .map(vector2D => {
+            return asWebGLVertices(multiply(vector2D, entity.transform.position));
         }).flat();
 }
 
@@ -85,7 +84,7 @@ const drawEntity= (entity: Entity, program: WebGLProgram) => {
 
     // 3D coordinates with size 3
     const pointer: VertexAttribPointer = {
-        size: 3,
+        size: 2,
         type: gl.FLOAT,
         normalize: false,
         stride: 0,
@@ -110,6 +109,8 @@ const drawEntity= (entity: Entity, program: WebGLProgram) => {
     gl.vertexAttribPointer(positionAttributeLocation(program), pointer.size, pointer.type, pointer.normalize, pointer.stride, pointer.offset);
 
     gl.useProgram(program);
+
+    gl.uniform2f(resolutionUniformLocation(program), coreConfig.canvasConfig().width, coreConfig.canvasConfig().height)
     gl.bindVertexArray(vao);
 
     gl.drawArrays(arraySettings.mode, arraySettings.first, arraySettings.count);

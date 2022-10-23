@@ -6,12 +6,17 @@ export interface Vector3D {
     z: number;
 }
 
-export type Triangle = [Vector3D, Vector3D, Vector3D];
+export interface Vector2D {
+    x: number;
+    y: number;
+}
+
+export type Triangle = [Vector2D, Vector2D, Vector2D];
 
 export interface Transform {
-    position: Vector3D;
-    rotation: Vector3D;
-    scale: Vector3D;
+    position: Vector2D;
+    rotation: Vector2D;
+    scale: Vector2D;
 }
 
 
@@ -29,31 +34,29 @@ export const createTriangleWithDefaults = (descriptor: string, triangles: Triang
         descriptor,
         triangles: triangles,
         transform: {
-            position: { x: 0, y: 0, z: 0 },
-            rotation: { x: 0, y: 0, z: 0 },
-            scale: { x: 0, y: 0, z: 0 }
+            position: { x: 0, y: 0 },
+            rotation: { x: 0, y: 0 },
+            scale: { x: 0, y: 0 }
         }}
 }
 
-const quadPoints = (x: number, y: number): Triangle[] => {
-    return [
+const rectanglePoints = (x: number, y: number): Triangle[] =>
+    [
         [
-            {x: -x, y: y, z: 0},
-            {x: x, y: y, z: 0},
-            {x: x, y: -y, z: 0},
+            {x: -x, y: y },
+            {x: x, y: y },
+            {x: x, y: -y },
         ],
         [
-            {x: -x, y: y, z: 0},
-            {x: -x, y: -y, z: 0},
-            {x: x, y: -y, z: 0},
+            {x: -x, y: y },
+            {x: -x, y: -y },
+            {x: x, y: -y },
         ]
-    ];
-}
+    ]
 
-export const createQuadWithDefaults = (descriptor: string, width: number, height: number): Entity => {
-    const x = width / 2;
-    const y = height / 2;
+export const createRectangleWithDefaults = (descriptor: string, width: number, height: number): Entity =>
+    createTriangleWithDefaults(descriptor, rectanglePoints(width, height))
 
+export const createGeometry = () => {
 
-    return createTriangleWithDefaults(descriptor, quadPoints(x, y))
 }
