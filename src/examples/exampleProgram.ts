@@ -1,7 +1,7 @@
 
 import {run} from "../core/core";
 import {applicationState} from "../state/applicationState";
-import {createRectangleWithDefaults, createTriangleWithDefaults, Entity} from "../interface/video";
+import {createTriangleWithDefaults, Entity} from "../interface/video";
 
 const test1: Entity = {
     triangles: [[{
@@ -23,7 +23,7 @@ const test1: Entity = {
             y: 0
         }
         ,
-        rotation: { x: 0, y: 0 },
+        rotation: 0,
         scale: { x: 0, y: 0 }
     }
 };

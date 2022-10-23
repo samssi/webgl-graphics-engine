@@ -1,9 +1,9 @@
 import {coreConfig} from "../state/coreConfig";
-import {Entity, Triangle, Vector2D, Vector3D} from "../interface/video";
+import {Degrees, Entity, Triangle, Vector2D, Vector3D} from "../interface/video";
 import {
     colorUniformLocation,
     positionAttributeLocation,
-    resolutionUniformLocation,
+    resolutionUniformLocation, rotationUniformLocation,
     translationUniformLocation
 } from "./shaderSource";
 
@@ -70,10 +70,17 @@ const asStoreBufferObjects = (entity: Entity): number[] => {
     return vector2Ds.map(vector2D => asWebGLVertices(vector2D)).flat();
 }
 
-const drawEntity= (entity: Entity, program: WebGLProgram) => {
+const degreesToGlRotation = (degrees: Degrees): [number, number] => {
+    const angleInDegrees = 360 - degrees;
+    const angleInRadians = angleInDegrees * Math.PI / 180;
+    return [Math.sin(angleInRadians), Math.cos(angleInRadians)]
+}
+
+const drawEntity = (entity: Entity, program: WebGLProgram) => {
     const gl = coreConfig.gl();
     const vao = gl.createVertexArray();
     const trianglePointCount = entity.triangles.length * 3;
+    const glRotation = degreesToGlRotation(entity.transform.rotation);
 
     // 3D coordinates with size 3
     const pointer: VertexAttribPointer = {
@@ -105,6 +112,7 @@ const drawEntity= (entity: Entity, program: WebGLProgram) => {
 
     gl.uniform2f(resolutionUniformLocation(program), coreConfig.canvasConfig().width, coreConfig.canvasConfig().height);
     gl.uniform2f(translationUniformLocation(program), entity.transform.position.x, entity.transform.position.y);
+    gl.uniform2f(rotationUniformLocation(program), glRotation[0], glRotation[1]);
     gl.uniform4f(colorUniformLocation(program), 0.4, 0.4, 0.4, 1);
 
     gl.bindVertexArray(vao);

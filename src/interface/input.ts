@@ -1,4 +1,4 @@
-export type Functionality = "up" | "down" | "left" | "right" | "none";
+export type Functionality = "up" | "down" | "left" | "right" | "counter-clockwise" | "clockwise" | "none";
 
 export interface EventListener<InputEventType extends UIEvent> {
     type: keyof DocumentEventMap;

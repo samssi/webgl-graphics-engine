@@ -11,11 +11,13 @@ export interface Vector2D {
     y: number;
 }
 
+export type Degrees = number
+
 export type Triangle = [Vector2D, Vector2D, Vector2D];
 
 export interface Transform {
     position: Vector2D;
-    rotation: Vector2D;
+    rotation: Degrees;
     scale: Vector2D;
 }
 
@@ -35,7 +37,7 @@ export const createTriangleWithDefaults = (descriptor: string, triangles: Triang
         triangles: triangles,
         transform: {
             position: { x: 0, y: 0 },
-            rotation: { x: 0, y: 0 },
+            rotation: 0,
             scale: { x: 0, y: 0 }
         }}
 }
@@ -56,7 +58,3 @@ const rectanglePoints = (x: number, y: number): Triangle[] =>
 
 export const createRectangleWithDefaults = (descriptor: string, width: number, height: number): Entity =>
     createTriangleWithDefaults(descriptor, rectanglePoints(width, height))
-
-export const createGeometry = () => {
-
-}
