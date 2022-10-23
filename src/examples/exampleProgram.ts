@@ -4,7 +4,7 @@ import {applicationState} from "../state/applicationState";
 import {createTriangleWithDefaults, Entity} from "../interface/video";
 
 const test1: Entity = {
-    points: [{
+    triangles: [[{
         x: -70,
         y: 400,
         z: 0
@@ -18,7 +18,7 @@ const test1: Entity = {
         x: -10,
         y: 0,
         z: 0
-    }],
+    }]],
     descriptor: "test1",
     transform: {
         position: {
@@ -33,7 +33,7 @@ const test1: Entity = {
 };
 
 const test2: Entity = createTriangleWithDefaults("test2", [
-    {
+    [{
         x: 70,
         y: 400,
         z: 0
@@ -47,7 +47,7 @@ const test2: Entity = createTriangleWithDefaults("test2", [
         x: 10,
         y: 0,
         z: 0
-    }
+    }]
 ])
 
 export const exampleProgram = () => {

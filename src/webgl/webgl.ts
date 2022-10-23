@@ -66,6 +66,14 @@ const asStoreBufferObjects = (triangle: Triangle): number[] => {
         .map(vector3D => asWebGLVertices(vector3D)).flat();
 }
 
+const withPositionData = (triangle: Triangle, position: Vector3D): Triangle =>
+    (triangle.map(vector3D => (
+        {
+            x: vector3D.x + position.x,
+            y: vector3D.y + position.y,
+            z: vector3D.z + position.z,
+        })) as Triangle)
+
 const drawTriangle = (triangle: Triangle, program: WebGLProgram) => {
     const gl = coreConfig.gl();
     const vao = gl.createVertexArray();
@@ -102,24 +110,15 @@ const drawTriangle = (triangle: Triangle, program: WebGLProgram) => {
     gl.drawArrays(arraySettings.mode, arraySettings.first, arraySettings.count);
 }
 
-const drawTriangles = (triangles: Triangle[], vertexShaderSource: string, fragmentShaderSource: string): void => {
+const drawEntity = (entity: Entity, vertexShaderSource: string, fragmentShaderSource: string): void => {
     const program = createProgramUsingShaders(vertexShaderSource, fragmentShaderSource);
-    // TODO: array buffer should have all the tris and the size accordingly should be set based on how many tris there are
-    if (triangles) triangles.forEach(triangle => drawTriangle(triangle, program));
+    entity.triangles.forEach(triangle => {
+        drawTriangle(withPositionData(triangle, entity.transform.position), program)
+    })
 }
 
 export const drawEntities = (entities: Entity[], vertexShaderSource: string, fragmentShaderSource: string): void => {
     if (entities) {
-        const triangles = entities.map<Triangle>(entity => {
-           const points = entity.points;
-           const position = entity.transform.position;
-            return points.map<Vector3D>(point => ({
-                x: point.x + position.x,
-                y: point.y + position.y,
-                z: point.z + position.z
-            })) as Triangle
-        });
-
-        drawTriangles(triangles, vertexShaderSource, fragmentShaderSource);
+        entities.forEach(entity => drawEntity(entity, vertexShaderSource, fragmentShaderSource))
     }
 }

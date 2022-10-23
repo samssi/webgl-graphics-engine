@@ -20,17 +20,42 @@ export interface Entity {
     descriptor: Descriptor;
     // TODO: entity will contain set of triangles to make the desired object
     // TODO: hint: make an array: Triangle[]
-    points: Triangle;
+    triangles: Triangle[];
     transform: Transform;
 }
 
-export const createTriangleWithDefaults = (descriptor: string, points: Triangle): Entity => {
+export const createTriangleWithDefaults = (descriptor: string, triangles: Triangle[]): Entity => {
     return {
-        descriptor: descriptor,
-        points: points,
+        descriptor,
+        triangles: triangles,
         transform: {
             position: { x: 0, y: 0, z: 0 },
             rotation: { x: 0, y: 0, z: 0 },
             scale: { x: 0, y: 0, z: 0 }
         }}
 }
+
+const quadPoints = (x: number, y: number): Triangle[] => {
+    return [
+        [
+            {x: -x, y: y, z: 0},
+            {x: x, y: y, z: 0},
+            {x: x, y: -y, z: 0},
+        ],
+        [
+            {x: -x, y: y, z: 0},
+            {x: -x, y: -y, z: 0},
+            {x: x, y: -y, z: 0},
+        ]
+    ];
+}
+
+/*
+export const createQuadWithDefaults = (descriptor: string, width: number, height: number): Entity => {
+    const x = width / 2;
+    const y = height / 2;
+
+
+    const trianglesForQuad = createTriangleWithDefaults(descriptor, )
+}
+*/
