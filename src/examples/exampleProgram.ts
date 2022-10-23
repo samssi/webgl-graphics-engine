@@ -41,11 +41,99 @@ const test2: Entity = createTriangleWithDefaults("test2", [
         x: 100,
         y: 0
     }]
-])
+]);
+
+const fLetter: Entity = createTriangleWithDefaults("f-letter", [
+    [
+        {
+            x: 0,
+            y: 0
+        },
+        {
+            x: 30,
+            y: 0
+        },
+        {
+            x: 0,
+            y: 150
+        }
+    ],
+    [
+        {
+            x: 0,
+            y: 150
+        },
+        {
+            x: 30,
+            y: 0
+        },
+        {
+            x: 30,
+            y: 150
+        }
+    ],
+    [
+        {
+            x: 30,
+            y: 0
+        },
+        {
+            x: 100,
+            y: 0
+        },
+        {
+            x: 30,
+            y: 30
+        }
+    ],
+    [
+        {
+            x: 30,
+            y: 30
+        },
+        {
+            x: 100,
+            y: 0
+        },
+        {
+            x: 100,
+            y: 30
+        }
+    ],
+    [
+        {
+            x: 30,
+            y: 60
+        },
+        {
+            x: 67,
+            y: 60
+        },
+        {
+            x: 30,
+            y: 90
+        }
+    ],
+    [
+        {
+            x: 30,
+            y: 90
+        },
+        {
+            x: 67,
+            y: 60
+        },
+        {
+            x: 67,
+            y: 90
+        }
+    ]
+]);
 
 export const exampleProgram = () => {
     // applicationState.putEntity(test1);
-    applicationState.putEntity(test2)
+    //applicationState.putEntity(test2)
     // applicationState.putEntity(createRectangleWithDefaults('quad1', 200, 100))
+    applicationState.putEntity(fLetter)
     run();
 }
