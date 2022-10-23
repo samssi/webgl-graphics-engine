@@ -61,22 +61,27 @@ export const createProgramUsingShaders = (vertexShaderSource: string, fragmentSh
 const asWebGLVertices = (vector3D: Vector3D) => [vector3D.x / coreConfig.canvasConfig().width, vector3D.y / coreConfig.canvasConfig().height, vector3D.z / coreConfig.canvasConfig().depth]
 const asFloat32Array = (coordinates: number[]) => new Float32Array(coordinates);
 
-const asStoreBufferObjects = (triangle: Triangle): number[] => {
-    return triangle
-        .map(vector3D => asWebGLVertices(vector3D)).flat();
+// TODO: should I do multiplication in the shader program too?
+const multiply = (vector1: Vector3D, vector2: Vector3D): Vector3D => {
+    return {
+        x: vector1.x + vector2.x,
+        y: vector1.y + vector2.y,
+        z: vector1.z + vector2.z,
+    }
 }
 
-const withPositionData = (triangle: Triangle, position: Vector3D): Triangle =>
-    (triangle.map(vector3D => (
-        {
-            x: vector3D.x + position.x,
-            y: vector3D.y + position.y,
-            z: vector3D.z + position.z,
-        })) as Triangle)
+const asStoreBufferObjects = (entity: Entity): number[] => {
+    const vector3Ds = entity.triangles.flat()
+    return vector3Ds
+        .map(vector3D => {
+            return asWebGLVertices(multiply(vector3D, entity.transform.position));
+        }).flat();
+}
 
-const drawTriangle = (triangle: Triangle, program: WebGLProgram) => {
+const drawEntity= (entity: Entity, program: WebGLProgram) => {
     const gl = coreConfig.gl();
     const vao = gl.createVertexArray();
+    const trianglePointCount = entity.triangles.length * 3;
 
     // 3D coordinates with size 3
     const pointer: VertexAttribPointer = {
@@ -90,10 +95,10 @@ const drawTriangle = (triangle: Triangle, program: WebGLProgram) => {
     const arraySettings: DrawArraysSettings = {
         mode: gl.TRIANGLES,
         first: 0,
-        count: 3
+        count: trianglePointCount
     }
 
-    const storeBufferObjects = asStoreBufferObjects(triangle);
+    const storeBufferObjects = asStoreBufferObjects(entity);
     const positionBuffer = gl.createBuffer();
 
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
@@ -110,15 +115,8 @@ const drawTriangle = (triangle: Triangle, program: WebGLProgram) => {
     gl.drawArrays(arraySettings.mode, arraySettings.first, arraySettings.count);
 }
 
-const drawEntity = (entity: Entity, vertexShaderSource: string, fragmentShaderSource: string): void => {
-    const program = createProgramUsingShaders(vertexShaderSource, fragmentShaderSource);
-    entity.triangles.forEach(triangle => {
-        drawTriangle(withPositionData(triangle, entity.transform.position), program)
-    })
-}
-
 export const drawEntities = (entities: Entity[], vertexShaderSource: string, fragmentShaderSource: string): void => {
     if (entities) {
-        entities.forEach(entity => drawEntity(entity, vertexShaderSource, fragmentShaderSource))
+        entities.forEach(entity => drawEntity(entity, createProgramUsingShaders(vertexShaderSource, fragmentShaderSource)))
     }
 }
