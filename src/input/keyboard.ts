@@ -3,7 +3,7 @@ import {applicationState} from "../state/applicationState";
 import {Vector2D, Vector3D} from "../interface/video";
 import {clamp, rollover} from "../webgl/wgl-math";
 
-const keys = ["w" , "a" , "s" , "d", "q", "e"];
+const keys = ["w" , "a" , "s" , "d", "q", "e", "1", "2", "3", "4"];
 type Key = typeof keys[number];
 
 type KeyMapping = {[key in Key]: Functionality}
@@ -14,7 +14,11 @@ const keymappings: KeyMapping = {
     "a": "left",
     "d": "right",
     "q": "counter-clockwise",
-    "e": "clockwise"
+    "e": "clockwise",
+    "1": "scale-x-",
+    "2": "scale-x+",
+    "3": "scale-y-",
+    "4": "scale-y+"
 }
 
 const keyToFunctionality = (key: string): Functionality => {
@@ -31,12 +35,26 @@ const keyPress = (event: KeyboardEvent): void => {
     const functionality = keyToFunctionality(event.key);
     const moveFactor = 5;
     const rotationFactor = 10;
+    const scaleFactor = 0.1;
     const tempEntityDescriptor = "f-letter"
     const entity = applicationState.getEntity(tempEntityDescriptor);
 
     if (functionality === "none") {
         console.log('none')
         return;
+    }
+
+    if (functionality === "scale-x+") {
+        entity.transform.scale.x = entity.transform.scale.x + scaleFactor;
+    }
+    if (functionality === "scale-x-") {
+        entity.transform.scale.x = entity.transform.scale.x - scaleFactor;
+    }
+    if (functionality === "scale-y+") {
+        entity.transform.scale.y = entity.transform.scale.y + scaleFactor;
+    }
+    if (functionality === "scale-y-") {
+        entity.transform.scale.y = entity.transform.scale.y - scaleFactor;
     }
 
     if (functionality === "left") {

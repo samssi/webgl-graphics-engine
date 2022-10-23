@@ -5,8 +5,8 @@ export const positionAttributeLocation = (program: WebGLProgram) => coreConfig.g
 export const resolutionUniformLocation = (program: WebGLProgram) => coreConfig.gl().getUniformLocation(program, "u_resolution")
 export const translationUniformLocation = (program: WebGLProgram) => coreConfig.gl().getUniformLocation(program, "u_translation")
 export const rotationUniformLocation = (program: WebGLProgram) => coreConfig.gl().getUniformLocation(program, "u_rotation")
+export const scaleUniformLocation = (program: WebGLProgram) => coreConfig.gl().getUniformLocation(program, "u_scale")
 export const colorUniformLocation = (program: WebGLProgram) => coreConfig.gl().getUniformLocation(program, "u_color")
-
 
 export const defaultVertexShaderSource = `#version 300 es
 
@@ -16,12 +16,15 @@ in vec2 a_position;
 uniform vec2 u_resolution;
 uniform vec2 u_translation;
 uniform vec2 u_rotation;
+uniform vec2 u_scale;
 
 // all shaders have a main function
 void main() {
+    vec2 scaled = a_position * u_scale;
+
     vec2 rotatedPosition = vec2(
-        a_position.x * u_rotation.y + a_position.y * u_rotation.x,
-        a_position.y * u_rotation.y - a_position.x * u_rotation.x);
+        scaled.x * u_rotation.y + scaled.y * u_rotation.x,
+        scaled.y * u_rotation.y - scaled.x * u_rotation.x);
 
     vec2 position = rotatedPosition + u_translation;
 

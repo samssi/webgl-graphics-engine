@@ -1,9 +1,9 @@
 import {coreConfig} from "../state/coreConfig";
-import {Degrees, Entity, Triangle, Vector2D, Vector3D} from "../interface/video";
+import {Degrees, Entity, Vector2D} from "../interface/video";
 import {
     colorUniformLocation,
     positionAttributeLocation,
-    resolutionUniformLocation, rotationUniformLocation,
+    resolutionUniformLocation, rotationUniformLocation, scaleUniformLocation,
     translationUniformLocation
 } from "./shaderSource";
 import {rollover} from "./wgl-math";
@@ -114,6 +114,7 @@ const drawEntity = (entity: Entity, program: WebGLProgram) => {
     gl.uniform2f(resolutionUniformLocation(program), coreConfig.canvasConfig().width, coreConfig.canvasConfig().height);
     gl.uniform2f(translationUniformLocation(program), entity.transform.position.x, entity.transform.position.y);
     gl.uniform2f(rotationUniformLocation(program), glRotation.x, glRotation.y);
+    gl.uniform2f(scaleUniformLocation(program), entity.transform.scale.x,entity.transform.scale.y);
     gl.uniform4f(colorUniformLocation(program), 0.4, 0.4, 0.4, 1);
 
     gl.bindVertexArray(vao);
