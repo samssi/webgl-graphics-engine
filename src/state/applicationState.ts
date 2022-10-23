@@ -7,7 +7,7 @@ export const applicationState = (() => {
     let entityMap: EntityMap = new Map();
 
     return {
-        updateEntity(updateEntity: Entity): void {
+        putEntity(updateEntity: Entity): void {
             entityMap.set(updateEntity.descriptor, updateEntity);
         },
         getEntity(descriptor: Descriptor): Entity {

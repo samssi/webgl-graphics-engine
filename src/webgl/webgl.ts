@@ -70,7 +70,7 @@ const drawTriangle = (triangle: Triangle, program: WebGLProgram) => {
     const gl = coreConfig.gl();
     const vao = gl.createVertexArray();
 
-    // Is in 3D the size 3?
+    // 3D coordinates with size 3
     const pointer: VertexAttribPointer = {
         size: 3,
         type: gl.FLOAT,
@@ -104,6 +104,7 @@ const drawTriangle = (triangle: Triangle, program: WebGLProgram) => {
 
 const drawTriangles = (triangles: Triangle[], vertexShaderSource: string, fragmentShaderSource: string): void => {
     const program = createProgramUsingShaders(vertexShaderSource, fragmentShaderSource);
+    // TODO: array buffer should have all the tris and the size accordingly should be set based on how many tris there are
     if (triangles) triangles.forEach(triangle => drawTriangle(triangle, program));
 }
 

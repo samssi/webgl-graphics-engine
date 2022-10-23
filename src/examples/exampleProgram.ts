@@ -1,7 +1,7 @@
 
 import {run} from "../core/core";
 import {applicationState} from "../state/applicationState";
-import {Entity} from "../interface/video";
+import {createTriangleWithDefaults, Entity} from "../interface/video";
 
 const test1: Entity = {
     points: [{
@@ -22,7 +22,7 @@ const test1: Entity = {
     descriptor: "test1",
     transform: {
         position: {
-            x: 0,
+            x: 150,
             y: 0,
             z: 0
         }
@@ -32,9 +32,26 @@ const test1: Entity = {
     }
 };
 
-
+const test2: Entity = createTriangleWithDefaults("test2", [
+    {
+        x: 70,
+        y: 400,
+        z: 0
+    },
+    {
+        x: 70,
+        y: 0,
+        z: 0
+    },
+    {
+        x: 10,
+        y: 0,
+        z: 0
+    }
+])
 
 export const exampleProgram = () => {
-    applicationState.updateEntity(test1);
+    applicationState.putEntity(test1);
+    applicationState.putEntity(test2)
     run();
 }
