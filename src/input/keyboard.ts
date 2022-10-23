@@ -1,6 +1,7 @@
 import {EventListener, Functionality, Listener} from "../interface/input";
 import {applicationState} from "../state/applicationState";
 import {Vector2D, Vector3D} from "../interface/video";
+import {clamp, rollover} from "../webgl/wgl-math";
 
 const keys = ["w" , "a" , "s" , "d", "q", "e"];
 type Key = typeof keys[number];
@@ -29,7 +30,7 @@ const sum = (current: Vector2D, change: Vector2D): Vector2D => ({
 const keyPress = (event: KeyboardEvent): void => {
     const functionality = keyToFunctionality(event.key);
     const moveFactor = 5;
-    const rotationFactor = 1;
+    const rotationFactor = 10;
     const tempEntityDescriptor = "f-letter"
     const entity = applicationState.getEntity(tempEntityDescriptor);
 
@@ -67,11 +68,13 @@ const keyPress = (event: KeyboardEvent): void => {
     }
 
     if (functionality === "clockwise") {
-        entity.transform.rotation = entity.transform.rotation + rotationFactor;
+        const newRotation = entity.transform.rotation + rotationFactor
+        entity.transform.rotation = rollover(newRotation, 0, 360);
     }
 
     if (functionality === "counter-clockwise") {
-        entity.transform.rotation = entity.transform.rotation - rotationFactor;
+        const newRotation = rollover(entity.transform.rotation - rotationFactor, 0, 360);
+        entity.transform.rotation = newRotation
     }
 
     applicationState.putEntity(entity);

@@ -70,10 +70,10 @@ const asStoreBufferObjects = (entity: Entity): number[] => {
     return vector2Ds.map(vector2D => asWebGLVertices(vector2D)).flat();
 }
 
-const degreesToGlRotation = (degrees: Degrees): [number, number] => {
+const degreesToGlRotation = (degrees: Degrees): Vector2D => {
     const angleInDegrees = 360 - degrees;
     const angleInRadians = angleInDegrees * Math.PI / 180;
-    return [Math.sin(angleInRadians), Math.cos(angleInRadians)]
+    return { x: Math.sin(angleInRadians), y: Math.cos(angleInRadians) }
 }
 
 const drawEntity = (entity: Entity, program: WebGLProgram) => {
@@ -112,7 +112,7 @@ const drawEntity = (entity: Entity, program: WebGLProgram) => {
 
     gl.uniform2f(resolutionUniformLocation(program), coreConfig.canvasConfig().width, coreConfig.canvasConfig().height);
     gl.uniform2f(translationUniformLocation(program), entity.transform.position.x, entity.transform.position.y);
-    gl.uniform2f(rotationUniformLocation(program), glRotation[0], glRotation[1]);
+    gl.uniform2f(rotationUniformLocation(program), glRotation.x, glRotation.y);
     gl.uniform4f(colorUniformLocation(program), 0.4, 0.4, 0.4, 1);
 
     gl.bindVertexArray(vao);

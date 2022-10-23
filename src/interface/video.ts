@@ -36,8 +36,8 @@ export const createTriangleWithDefaults = (descriptor: string, triangles: Triang
         descriptor,
         triangles: triangles,
         transform: {
-            position: { x: 0, y: 0 },
-            rotation: 0,
+            position: { x: 300, y: 200 },
+            rotation: -365,
             scale: { x: 0, y: 0 }
         }}
 }
