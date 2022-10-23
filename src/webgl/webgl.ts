@@ -1,6 +1,11 @@
 import {coreConfig} from "../state/coreConfig";
 import {Entity, Triangle, Vector2D, Vector3D} from "../interface/video";
-import {colorUniformLocation, positionAttributeLocation, resolutionUniformLocation} from "./shaderSource";
+import {
+    colorUniformLocation,
+    positionAttributeLocation,
+    resolutionUniformLocation,
+    translationUniformLocation
+} from "./shaderSource";
 
 interface VertexAttribPointer {
     size: number,
@@ -57,24 +62,12 @@ export const createProgramUsingShaders = (vertexShaderSource: string, fragmentSh
     return createProgram(gl, vertexShader, fragmentShader);
 }
 
-// TODO: do this conversion in the shader program
 const asWebGLVertices = (vector2D: Vector2D): number[] => [vector2D.x, vector2D.y]
 const asFloat32Array = (coordinates: number[]): Float32Array => new Float32Array(coordinates);
 
-// TODO: should I do multiplication in the shader program too?
-const multiply = (vector1: Vector2D, vector2: Vector2D): Vector2D => {
-    return {
-        x: vector1.x + vector2.x,
-        y: vector1.y + vector2.y
-    }
-}
-
 const asStoreBufferObjects = (entity: Entity): number[] => {
     const vector2Ds = entity.triangles.flat()
-    return vector2Ds
-        .map(vector2D => {
-            return asWebGLVertices(multiply(vector2D, entity.transform.position));
-        }).flat();
+    return vector2Ds.map(vector2D => asWebGLVertices(vector2D)).flat();
 }
 
 const drawEntity= (entity: Entity, program: WebGLProgram) => {
@@ -110,7 +103,8 @@ const drawEntity= (entity: Entity, program: WebGLProgram) => {
 
     gl.useProgram(program);
 
-    gl.uniform2f(resolutionUniformLocation(program), coreConfig.canvasConfig().width, coreConfig.canvasConfig().height)
+    gl.uniform2f(resolutionUniformLocation(program), coreConfig.canvasConfig().width, coreConfig.canvasConfig().height);
+    gl.uniform2f(translationUniformLocation(program), entity.transform.position.x, entity.transform.position.y);
     gl.uniform4f(colorUniformLocation(program), 0.4, 0.4, 0.4, 1);
 
     gl.bindVertexArray(vao);

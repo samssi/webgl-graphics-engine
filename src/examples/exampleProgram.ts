@@ -35,10 +35,10 @@ const test2: Entity = createTriangleWithDefaults("test2", [
     },
     {
         x: 0,
-        y: 10
+        y: 100
     },
     {
-        x: 10,
+        x: 100,
         y: 0
     }]
 ])
@@ -46,6 +46,6 @@ const test2: Entity = createTriangleWithDefaults("test2", [
 export const exampleProgram = () => {
     // applicationState.putEntity(test1);
     applicationState.putEntity(test2)
-    //applicationState.putEntity(createRectangleWithDefaults('quad1', 200, 100))
+    // applicationState.putEntity(createRectangleWithDefaults('quad1', 200, 100))
     run();
 }
