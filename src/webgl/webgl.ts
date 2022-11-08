@@ -122,8 +122,8 @@ const drawEntity = (entity: Entity, program: WebGLProgram) => {
     gl.drawArrays(arraySettings.mode, arraySettings.first, arraySettings.count);
 }
 
-export const drawEntities = (entities: Entity[], vertexShaderSource: string, fragmentShaderSource: string): void => {
+export const drawEntities = (entities: Entity[], program: WebGLProgram): void => {
     if (entities) {
-        entities.forEach(entity => drawEntity(entity, createProgramUsingShaders(vertexShaderSource, fragmentShaderSource)))
+        entities.forEach(entity => drawEntity(entity, program));
     }
 }

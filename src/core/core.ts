@@ -1,12 +1,11 @@
 import {coreConfig} from "../state/coreConfig";
 import {applicationState} from "../state/applicationState";
 import {drawEntities} from "../webgl/webgl";
-import {defaultFragmentShaderSource, defaultVertexShaderSource} from "../webgl/shaderSource";
 
 const renderLoop = (timestamp: number) => {
     const entities = applicationState.entities();
 
-    drawEntities(entities, defaultVertexShaderSource, defaultFragmentShaderSource);
+    drawEntities(entities, coreConfig.shaderProgram());
     window.requestAnimationFrame(renderLoop)
 }
 
