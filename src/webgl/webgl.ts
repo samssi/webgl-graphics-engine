@@ -1,10 +1,9 @@
 import {coreConfig} from "../state/coreConfig";
 import {Degrees, Entity, Vector2D} from "../interface/entity";
+import { mat3 } from "gl-matrix"
+
 import {
-    colorUniformLocation,
-    positionAttributeLocation,
-    resolutionUniformLocation, rotationUniformLocation, scaleUniformLocation,
-    translationUniformLocation
+    colorUniformLocation, modelViewProjection, vertexObjectCoordinates
 } from "./shaderSource";
 import {rollover} from "./wgl-math";
 
@@ -63,10 +62,9 @@ export const createProgramUsingShaders = (vertexShaderSource: string, fragmentSh
     return createProgram(gl, vertexShader, fragmentShader);
 }
 
-const degreesToGlRotation = (degrees: Degrees): Vector2D => {
+const degreesToRadians = (degrees: Degrees): number => {
     const angleInDegrees = 360 - rollover(degrees, 0, 360);
-    const angleInRadians = angleInDegrees * Math.PI / 180;
-    return { x: Math.sin(angleInRadians), y: Math.cos(angleInRadians) }
+    return angleInDegrees * Math.PI / 180;
 }
 
 const drawEntity = (entity: Entity, program: WebGLProgram) => {
@@ -74,7 +72,6 @@ const drawEntity = (entity: Entity, program: WebGLProgram) => {
     const vao = gl.createVertexArray();
 
     const pointCount = entity.points.length;
-    const glRotation = degreesToGlRotation(entity.transform.rotation);
 
     const pointer: VertexAttribPointer = {
         size: 2,
@@ -96,16 +93,22 @@ const drawEntity = (entity: Entity, program: WebGLProgram) => {
     gl.bufferData(gl.ARRAY_BUFFER, entity.points, gl.STATIC_DRAW);
 
     gl.bindVertexArray(vao);
-    gl.enableVertexAttribArray(positionAttributeLocation(program));
+    gl.enableVertexAttribArray(vertexObjectCoordinates(program));
 
-    gl.vertexAttribPointer(positionAttributeLocation(program), pointer.size, pointer.type, pointer.normalize, pointer.stride, pointer.offset);
+    gl.vertexAttribPointer(vertexObjectCoordinates(program), pointer.size, pointer.type, pointer.normalize, pointer.stride, pointer.offset);
 
     gl.useProgram(program);
 
-    gl.uniform2f(resolutionUniformLocation(program), coreConfig.canvasConfig().width, coreConfig.canvasConfig().height);
-    gl.uniform2f(translationUniformLocation(program), entity.transform.position.x, entity.transform.position.y);
-    gl.uniform2f(rotationUniformLocation(program), glRotation.x, glRotation.y);
-    gl.uniform2f(scaleUniformLocation(program), entity.transform.scale.x,entity.transform.scale.y);
+    const matrix2D = mat3.create();
+    // mat3.identity?
+    mat3.projection(matrix2D, coreConfig.canvasConfig().width, coreConfig.canvasConfig().height);
+    mat3.translate(matrix2D, matrix2D, [entity.transform.position.x, entity.transform.position.y]);
+    mat3.rotate(matrix2D, matrix2D, degreesToRadians(entity.transform.rotation));
+    mat3.scale(matrix2D, matrix2D, [entity.transform.scale.x, entity.transform.scale.y]);
+    mat3.translate(matrix2D, matrix2D, [-50, -75]);
+    // How to move the origin to center of the object?
+    gl.uniformMatrix3fv(modelViewProjection(program), false, matrix2D)
+
     gl.uniform4f(colorUniformLocation(program), 0.4, 0.4, 0.4, 1);
 
     gl.bindVertexArray(vao);

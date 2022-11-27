@@ -1,6 +1,6 @@
 import {Listener} from "../interface/input";
 import {createProgramUsingShaders} from "../webgl/webgl";
-import {defaultFragmentShaderSource, defaultVertexShaderSource} from "../webgl/shaderSource";
+import {defaultFragmentShaderSource, default2DVertexShaderSource} from "../webgl/shaderSource";
 
 export interface CoreConfig {
     gl: WebGL2RenderingContext;
@@ -21,7 +21,7 @@ export const coreConfig = (() => {
     return {
         init(config: CoreConfig): void {
             currentConfig = config;
-            shaderProgram = createProgramUsingShaders(defaultVertexShaderSource, defaultFragmentShaderSource);
+            shaderProgram = createProgramUsingShaders(default2DVertexShaderSource, defaultFragmentShaderSource);
         },
         shaderProgram(): WebGLProgram {
             return shaderProgram;

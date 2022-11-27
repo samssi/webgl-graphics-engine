@@ -1,43 +1,21 @@
 import {coreConfig} from "../state/coreConfig";
 
-// TODO: rename a_position
-export const positionAttributeLocation = (program: WebGLProgram) => coreConfig.gl().getAttribLocation(program, "a_position");
-export const resolutionUniformLocation = (program: WebGLProgram) => coreConfig.gl().getUniformLocation(program, "u_resolution")
-export const translationUniformLocation = (program: WebGLProgram) => coreConfig.gl().getUniformLocation(program, "u_translation")
+export const vertexObjectCoordinates = (program: WebGLProgram) => coreConfig.gl().getAttribLocation(program, "a_coordinates");
+export const modelViewProjection = (program: WebGLProgram) => coreConfig.gl().getUniformLocation(program, "modelViewProjection");
+
+/*export const translationUniformLocation = (program: WebGLProgram) => coreConfig.gl().getUniformLocation(program, "u_translation")
 export const rotationUniformLocation = (program: WebGLProgram) => coreConfig.gl().getUniformLocation(program, "u_rotation")
-export const scaleUniformLocation = (program: WebGLProgram) => coreConfig.gl().getUniformLocation(program, "u_scale")
+export const scaleUniformLocation = (program: WebGLProgram) => coreConfig.gl().getUniformLocation(program, "u_scale")*/
 export const colorUniformLocation = (program: WebGLProgram) => coreConfig.gl().getUniformLocation(program, "u_color")
 
-export const defaultVertexShaderSource = `#version 300 es
+export const default2DVertexShaderSource = `#version 300 es
 
-// an attribute is an input (in) to a vertex shader.
-// It will receive data from a buffer
-in vec2 a_position;
-uniform vec2 u_resolution;
-uniform vec2 u_translation;
-uniform vec2 u_rotation;
-uniform vec2 u_scale;
+in vec2 a_coordinates;
+uniform mat3 modelViewProjection;
 
-// all shaders have a main function
-void main() {
-    vec2 scaled = a_position * u_scale;
-
-    vec2 rotatedPosition = vec2(
-        scaled.x * u_rotation.y + scaled.y * u_rotation.x,
-        scaled.y * u_rotation.y - scaled.x * u_rotation.x);
-
-    vec2 position = rotatedPosition + u_translation;
-
-    // convert the position from pixels to 0.0 to 1.0
-    vec2 zeroToOne = position / u_resolution;
- 
-    // convert from 0->1 to 0->2
-    vec2 zeroToTwo = zeroToOne * 2.0;
- 
-    // convert from 0->2 to -1->+1 (clip space)
-    vec2 clipSpace = zeroToTwo - 1.0;
- 
-    gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);
+void main() { 
+    vec3 coordinates = modelViewProjection * vec3(a_coordinates, 1);
+    gl_Position = vec4(coordinates.xy, 0, 1);
 }
 `
 
