@@ -35,7 +35,8 @@ const keyPress = (event: KeyboardEvent): void => {
     const moveFactor = 5;
     const rotationFactor = 10;
     const scaleFactor = 0.1;
-    const tempEntityDescriptor = "f-letter"
+    // const tempEntityDescriptor = "f-letter"
+    const tempEntityDescriptor = "triangle"
     const entity = applicationState.getEntity(tempEntityDescriptor);
 
     if (functionality === "none") {

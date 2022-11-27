@@ -1,19 +1,28 @@
 
 import {run} from "../core/core";
 import {applicationState} from "../state/applicationState";
-import {createPointsWithDefaults, createRectangleWithDefaults, Entity} from "../interface/entity";
+import {centerOfAnObject, createPointsWithDefaults, createRectangleWithDefaults, Entity} from "../interface/entity";
+
+const points = new Float32Array([
+    0, 0,
+    0, 0.5,
+    0.7, 0,
+]);
+
+const trianglePoints = new Float32Array([
+    100, 0,
+    0, 100,
+    200, 100,
+]);
 
 const triangle: Entity = {
-    points: new Float32Array([
-        -200, 100,
-        200, 100,
-        200, -100,
-    ]),
-    descriptor: "test1",
+    points: trianglePoints,
+    descriptor: "triangle",
     transform: {
+        objectCenter: { x: 0 , y: 0 },
         position: {
-            x: 350,
-            y: 300
+            x: 300,
+            y: 200
         }
         ,
         rotation: 0,
@@ -21,7 +30,7 @@ const triangle: Entity = {
     }
 };
 
-
+//const triangle = createPointsWithDefaults("triangle", trianglePoints);
 
 const fLetter: Entity = createPointsWithDefaults("f-letter",
     new Float32Array([
@@ -49,9 +58,10 @@ const fLetter: Entity = createPointsWithDefaults("f-letter",
 );
 
 export const exampleProgram = () => {
-    //applicationState.putEntity(triangle);
+    console.log(centerOfAnObject(trianglePoints));
+    applicationState.putEntity(triangle);
     //applicationState.putEntity(createRectangleWithDefaults('quad1', 200, 100))
-    applicationState.putEntity(fLetter);
+    // applicationState.putEntity(fLetter);
 
     run();
 }
