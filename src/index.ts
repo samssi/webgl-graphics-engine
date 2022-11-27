@@ -33,12 +33,13 @@ const initWebGLContext = (elementId: string) => {
     const depth = 100;
     const canvas = canvasElementOrFail(elementByIdOrFail(elementId), width, height);
     const gl = webGL2ContextOrFail(canvas);
+
     coreConfig.init(
         {
             gl,
             canvasConfig: {
-                width,
-                height,
+                width: canvas.clientWidth,
+                height: canvas.clientHeight,
                 depth
             },
             keyboardListener

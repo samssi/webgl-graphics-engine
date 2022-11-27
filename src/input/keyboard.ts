@@ -86,12 +86,12 @@ const keyPress = (event: KeyboardEvent): void => {
     }
 
     if (functionality === "clockwise") {
-        const newRotation = entity.transform.rotation + rotationFactor
+        const newRotation = entity.transform.rotation - rotationFactor
         entity.transform.rotation = rollover(newRotation, 0, 360);
     }
 
     if (functionality === "counter-clockwise") {
-        const newRotation = rollover(entity.transform.rotation - rotationFactor, 0, 360);
+        const newRotation = rollover(entity.transform.rotation + rotationFactor, 0, 360);
         entity.transform.rotation = newRotation
     }
 
