@@ -1,139 +1,57 @@
 
 import {run} from "../core/core";
 import {applicationState} from "../state/applicationState";
-import {createTriangleWithDefaults, Entity} from "../interface/video";
+import {createPointsWithDefaults, createRectangleWithDefaults, Entity} from "../interface/video";
 
-const test1: Entity = {
-    triangles: [[{
-        x: -70,
-        y: 400
-    },
-    {
-        x: 390,
-        y: 0
-    },
-    {
-        x: -10,
-        y: 0
-    }]],
+const triangle: Entity = {
+    points: new Float32Array([
+        -200, 100,
+        200, 100,
+        200, -100,
+    ]),
     descriptor: "test1",
     transform: {
         position: {
-            x: 150,
-            y: 0
+            x: 350,
+            y: 300
         }
         ,
         rotation: 0,
-        scale: { x: 0, y: 0 }
+        scale: { x: 1, y: 1 }
     }
 };
 
-const test2: Entity = createTriangleWithDefaults("test2", [
-    [{
-        x: 0,
-        y: 0
-    },
-    {
-        x: 0,
-        y: 100
-    },
-    {
-        x: 100,
-        y: 0
-    }]
-]);
 
-const fLetter: Entity = createTriangleWithDefaults("f-letter", [
-    [
-        {
-            x: 0,
-            y: 0
-        },
-        {
-            x: 30,
-            y: 0
-        },
-        {
-            x: 0,
-            y: 150
-        }
-    ],
-    [
-        {
-            x: 0,
-            y: 150
-        },
-        {
-            x: 30,
-            y: 0
-        },
-        {
-            x: 30,
-            y: 150
-        }
-    ],
-    [
-        {
-            x: 30,
-            y: 0
-        },
-        {
-            x: 100,
-            y: 0
-        },
-        {
-            x: 30,
-            y: 30
-        }
-    ],
-    [
-        {
-            x: 30,
-            y: 30
-        },
-        {
-            x: 100,
-            y: 0
-        },
-        {
-            x: 100,
-            y: 30
-        }
-    ],
-    [
-        {
-            x: 30,
-            y: 60
-        },
-        {
-            x: 67,
-            y: 60
-        },
-        {
-            x: 30,
-            y: 90
-        }
-    ],
-    [
-        {
-            x: 30,
-            y: 90
-        },
-        {
-            x: 67,
-            y: 60
-        },
-        {
-            x: 67,
-            y: 90
-        }
-    ]
-]);
+
+const fLetter: Entity = createPointsWithDefaults("f-letter",
+    new Float32Array([
+        0,0,
+        30, 0,
+        0, 150,
+        0, 150,
+        30, 0,
+        30,150,
+
+        30,0,
+        100,0,
+        30,30,
+        30,30,
+        100,0,
+        100,30,
+
+        30,60,
+        67,60,
+        30,90,
+        30,90,
+        67,60,
+        67,90,
+    ])
+);
 
 export const exampleProgram = () => {
-    // applicationState.putEntity(test1);
-    //applicationState.putEntity(test2)
-    // applicationState.putEntity(createRectangleWithDefaults('quad1', 200, 100))
-    applicationState.putEntity(fLetter)
+    //applicationState.putEntity(triangle);
+    //applicationState.putEntity(createRectangleWithDefaults('quad1', 200, 100))
+    applicationState.putEntity(fLetter);
+
     run();
 }

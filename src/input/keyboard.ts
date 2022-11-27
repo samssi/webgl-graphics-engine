@@ -30,7 +30,6 @@ const sum = (current: Vector2D, change: Vector2D): Vector2D => ({
     y: current.y + change.y
 })
 
-// TODO: to be updated to use entities instead of basic tris
 const keyPress = (event: KeyboardEvent): void => {
     const functionality = keyToFunctionality(event.key);
     const moveFactor = 5;

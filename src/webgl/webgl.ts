@@ -63,14 +63,6 @@ export const createProgramUsingShaders = (vertexShaderSource: string, fragmentSh
     return createProgram(gl, vertexShader, fragmentShader);
 }
 
-const asWebGLVertices = (vector2D: Vector2D): number[] => [vector2D.x, vector2D.y]
-const asFloat32Array = (coordinates: number[]): Float32Array => new Float32Array(coordinates);
-
-const asStoreBufferObjects = (entity: Entity): number[] => {
-    const vector2Ds = entity.triangles.flat()
-    return vector2Ds.map(vector2D => asWebGLVertices(vector2D)).flat();
-}
-
 const degreesToGlRotation = (degrees: Degrees): Vector2D => {
     const angleInDegrees = 360 - rollover(degrees, 0, 360);
     const angleInRadians = angleInDegrees * Math.PI / 180;
@@ -80,10 +72,10 @@ const degreesToGlRotation = (degrees: Degrees): Vector2D => {
 const drawEntity = (entity: Entity, program: WebGLProgram) => {
     const gl = coreConfig.gl();
     const vao = gl.createVertexArray();
-    const trianglePointCount = entity.triangles.length * 3;
+
+    const pointCount = entity.points.length;
     const glRotation = degreesToGlRotation(entity.transform.rotation);
 
-    // 3D coordinates with size 3
     const pointer: VertexAttribPointer = {
         size: 2,
         type: gl.FLOAT,
@@ -95,14 +87,13 @@ const drawEntity = (entity: Entity, program: WebGLProgram) => {
     const arraySettings: DrawArraysSettings = {
         mode: gl.TRIANGLES,
         first: 0,
-        count: trianglePointCount
+        count: pointCount
     }
 
-    const storeBufferObjects = asStoreBufferObjects(entity);
     const positionBuffer = gl.createBuffer();
 
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, asFloat32Array(storeBufferObjects), gl.STATIC_DRAW);
+    gl.bufferData(gl.ARRAY_BUFFER, entity.points, gl.STATIC_DRAW);
 
     gl.bindVertexArray(vao);
     gl.enableVertexAttribArray(positionAttributeLocation(program));

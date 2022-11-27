@@ -11,9 +11,7 @@ export interface Vector2D {
     y: number;
 }
 
-export type Degrees = number
-
-export type Triangle = [Vector2D, Vector2D, Vector2D];
+export type Degrees = number;
 
 export interface Transform {
     position: Vector2D;
@@ -21,20 +19,16 @@ export interface Transform {
     scale: Vector2D;
 }
 
-
-// TODO: Next version will contain entities
 export interface Entity {
     descriptor: Descriptor;
-    // TODO: entity will contain set of triangles to make the desired object
-    // TODO: hint: make an array: Triangle[]
-    triangles: Triangle[];
+    points: Float32Array;
     transform: Transform;
 }
 
-export const createTriangleWithDefaults = (descriptor: string, triangles: Triangle[]): Entity => {
+export const createPointsWithDefaults = (descriptor: string, points: Float32Array): Entity => {
     return {
         descriptor,
-        triangles: triangles,
+        points: points,
         transform: {
             position: { x: 300, y: 200 },
             rotation: -365,
@@ -42,19 +36,19 @@ export const createTriangleWithDefaults = (descriptor: string, triangles: Triang
         }}
 }
 
-const rectanglePoints = (x: number, y: number): Triangle[] =>
-    [
-        [
-            {x: -x, y: y },
-            {x: x, y: y },
-            {x: x, y: -y },
-        ],
-        [
-            {x: -x, y: y },
-            {x: -x, y: -y },
-            {x: x, y: -y },
-        ]
-    ]
+const rectanglePoints = (x: number, y: number): Float32Array =>
+    new Float32Array([
+        -x, y,
+        x, y,
+        x, -y,
 
-export const createRectangleWithDefaults = (descriptor: string, width: number, height: number): Entity =>
-    createTriangleWithDefaults(descriptor, rectanglePoints(width, height))
+        -x, y,
+        -x, -y,
+        x, -y,
+    ]);
+
+export const createRectangleWithDefaults = (descriptor: string, width: number, height: number): Entity => {
+    console.log(rectanglePoints(width, height));
+    return createPointsWithDefaults(descriptor, rectanglePoints(width, height))
+}
+
