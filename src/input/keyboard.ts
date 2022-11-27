@@ -1,6 +1,6 @@
 import {EventListener, Functionality, Listener} from "../interface/input";
 import {applicationState} from "../state/applicationState";
-import {Vector2D, Vector3D} from "../interface/video";
+import {Vector2D, Vector3D} from "../interface/entity";
 import {clamp, rollover} from "../webgl/wgl-math";
 
 const keys = ["w" , "a" , "s" , "d", "q", "e", "1", "2", "3", "4"];

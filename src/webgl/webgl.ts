@@ -1,5 +1,5 @@
 import {coreConfig} from "../state/coreConfig";
-import {Degrees, Entity, Vector2D} from "../interface/video";
+import {Degrees, Entity, Vector2D} from "../interface/entity";
 import {
     colorUniformLocation,
     positionAttributeLocation,

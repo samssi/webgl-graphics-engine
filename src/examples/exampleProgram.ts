@@ -1,7 +1,7 @@
 
 import {run} from "../core/core";
 import {applicationState} from "../state/applicationState";
-import {createPointsWithDefaults, createRectangleWithDefaults, Entity} from "../interface/video";
+import {createPointsWithDefaults, createRectangleWithDefaults, Entity} from "../interface/entity";
 
 const triangle: Entity = {
     points: new Float32Array([
