@@ -25,8 +25,9 @@ const triangle: Entity = {
     transform: {
         objectCenter: centerOfAnObject(trianglePoints),
         position: {
-            x: 100,
-            y: 100
+            x: 0,
+            y: 0
+
         }
         ,
         rotation: 0,

@@ -102,7 +102,13 @@ const drawEntity = (entity: Entity, program: WebGLProgram) => {
     const matrix2D = mat3.create();
 
     mat3.identity(matrix2D);
+
+    // Apply projection to canvas size
     mat3.projection(matrix2D, coreConfig.canvasConfig().width, coreConfig.canvasConfig().height);
+
+    // Move origin to center from pixel space
+    mat3.translate(matrix2D, matrix2D, [coreConfig.canvasConfig().width / 2, coreConfig.canvasConfig().height / 2]);
+
     // Applies position to the entity
     mat3.translate(matrix2D, matrix2D, [entity.transform.position.x, entity.transform.position.y]);
 
@@ -115,7 +121,7 @@ const drawEntity = (entity: Entity, program: WebGLProgram) => {
     // Moves entity origin to the center of the entity
     mat3.translate(matrix2D, matrix2D, [entity.transform.objectCenter.x, entity.transform.objectCenter.y]);
 
-    gl.uniformMatrix3fv(modelViewProjection(program), false, matrix2D)
+    gl.uniformMatrix3fv(modelViewProjection(program), false, matrix2D);
 
     gl.uniform4f(colorUniformLocation(program), 0.4, 0.4, 0.4, 1);
 
