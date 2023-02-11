@@ -103,11 +103,18 @@ const drawEntity = (entity: Entity, program: WebGLProgram) => {
 
     mat3.identity(matrix2D);
     mat3.projection(matrix2D, coreConfig.canvasConfig().width, coreConfig.canvasConfig().height);
+    // Applies position to the entity
     mat3.translate(matrix2D, matrix2D, [entity.transform.position.x, entity.transform.position.y]);
+
+    // Applies rotation to the entity
     mat3.rotate(matrix2D, matrix2D, degreesToRadians(entity.transform.rotation));
+
+    // Applies scale to the entity
     mat3.scale(matrix2D, matrix2D, [entity.transform.scale.x, entity.transform.scale.y]);
+
+    // Moves entity origin to the center of the entity
     mat3.translate(matrix2D, matrix2D, [entity.transform.objectCenter.x, entity.transform.objectCenter.y]);
-    // How to move the origin to center of the object?
+
     gl.uniformMatrix3fv(modelViewProjection(program), false, matrix2D)
 
     gl.uniform4f(colorUniformLocation(program), 0.4, 0.4, 0.4, 1);
