@@ -1,70 +1,14 @@
 import {coreConfig} from "../../state/coreConfig";
-import {Degrees, Entity, Vector2D} from "../../interface/entity";
 import { mat3 } from "gl-matrix"
 
 import {
     colorUniformLocation, modelViewProjection, vertexObjectCoordinates
 } from "./shaderSource";
 import {degreesToRadians, rollover} from "../wgl-math";
+import {DrawArraysSettings, VertexAttribPointer, webGLEntityOrError} from "../settings";
+import {Entity2d} from "../../interface/entity2d";
 
-interface VertexAttribPointer {
-    size: number,
-    type: GLenum,
-    normalize: boolean,
-    stride: number,
-    offset: number
-}
-
-interface DrawArraysSettings {
-    mode: GLenum,
-    first: number,
-    count: number
-}
-
-export const webGLEntityOrError = <T> (webGlEntity: T | null): T => {
-    if (webGlEntity === null) {
-        throw new Error("Failed to create WebGL entity!");
-    }
-    return webGlEntity;
-}
-
-export const createShader = (gl: WebGL2RenderingContext, type: GLenum, source: string) => {
-    const shader = webGLEntityOrError(gl.createShader(type));
-    gl.shaderSource(shader, source);
-    gl.compileShader(shader);
-    const success = gl.getShaderParameter(shader, gl.COMPILE_STATUS);
-    if (success) {
-        return shader;
-    }
-    const log = gl.getShaderInfoLog(shader);
-    gl.deleteShader(shader);
-    throw new Error(log || "Failed to compile the Web GL shader!");
-}
-
-export const createProgram = (gl: WebGL2RenderingContext, vertexShader: WebGLShader, fragmentShader: WebGLShader) => {
-    const program = webGLEntityOrError(gl.createProgram());
-    gl.attachShader(program, vertexShader);
-    gl.attachShader(program, fragmentShader);
-    gl.linkProgram(program);
-    const success = gl.getProgramParameter(program, gl.LINK_STATUS);
-    if (success) {
-        return program;
-    }
-    const log = gl.getProgramInfoLog(program);
-    gl.deleteProgram(program);
-    throw new Error(log || "Failed to compile the Web GL program!");
-}
-
-export const createProgramUsingShaders = (vertexShaderSource: string, fragmentShaderSource: string) => {
-    const gl = coreConfig.gl();
-    const vertexShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
-    const fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource);
-    return createProgram(gl, vertexShader, fragmentShader);
-}
-
-
-
-const apply2DTransformations = (entity: Entity) => {
+const apply2DTransformations = (entity: Entity2d) => {
     const matrix2D = mat3.create();
 
     mat3.identity(matrix2D);
@@ -90,7 +34,7 @@ const apply2DTransformations = (entity: Entity) => {
     return matrix2D
 }
 
-const drawEntity = (entity: Entity, program: WebGLProgram) => {
+const drawEntity = (entity: Entity2d, program: WebGLProgram) => {
     const gl = coreConfig.gl();
     const vao = gl.createVertexArray();
 
@@ -134,7 +78,7 @@ const drawEntity = (entity: Entity, program: WebGLProgram) => {
     gl.drawArrays(arraySettings.mode, arraySettings.first, arraySettings.count);
 }
 
-export const draw2DEntities = (entities: Entity[], program: WebGLProgram): void => {
+export const draw2DEntities = (entities: Entity2d[], program: WebGLProgram): void => {
     if (entities) {
         entities.forEach(entity => drawEntity(entity, program));
     }

@@ -1,6 +1,7 @@
-import {exampleProgram} from "./examples/exampleProgram";
+import {exampleProgram2D} from "./examples/exampleProgram2D";
 import {coreConfig} from "./state/coreConfig";
 import {keyboardListener} from "./input/keyboard";
+import {exampleProgram3D} from "./examples/exampleProgram3D";
 
 const canvasElementOrFail = (canvasElement: HTMLElement, width: number, height: number): HTMLCanvasElement => {
     if (canvasElement instanceof HTMLCanvasElement) {
@@ -47,5 +48,6 @@ const initWebGLContext = (elementId: string) => {
 }
 
 initWebGLContext("glCanvas");
-exampleProgram();
+// exampleProgram2D();
+exampleProgram3D();
 

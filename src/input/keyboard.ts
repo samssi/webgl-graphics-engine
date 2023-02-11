@@ -1,7 +1,7 @@
 import {EventListener, Functionality, Listener} from "../interface/input";
 import {applicationState} from "../state/applicationState";
-import {Vector2D, Vector3D} from "../interface/entity";
-import {clamp, rollover} from "../webgl/wgl-math";
+import { Vector2d } from "../interface/entity2d";
+import { clamp, rollover } from "../webgl/wgl-math";
 
 const keys = ["w" , "a" , "s" , "d", "q", "e", "1", "2", "3", "4"];
 type Key = typeof keys[number];
@@ -25,7 +25,7 @@ const keyToFunctionality = (key: string): Functionality => {
     return keys.includes(key) ? keymappings[key] : "none";
 }
 
-const sum = (current: Vector2D, change: Vector2D): Vector2D => ({
+const sum = (current: Vector2d, change: Vector2d): Vector2d => ({
     x: current.x + change.x,
     y: current.y + change.y
 })

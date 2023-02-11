@@ -1,4 +1,4 @@
-import {Degrees} from "../interface/entity";
+export type Degrees = number;
 
 export const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);
 export const rollover = (value: number, min: number, max: number) => {
