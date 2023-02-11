@@ -1,4 +1,4 @@
-import {coreConfig} from "../state/coreConfig";
+import {coreConfig} from "../../state/coreConfig";
 
 export const vertexObjectCoordinates = (program: WebGLProgram) => coreConfig.gl().getAttribLocation(program, "a_coordinates");
 export const modelViewProjection = (program: WebGLProgram) => coreConfig.gl().getUniformLocation(program, "modelViewProjection");
@@ -19,7 +19,7 @@ void main() {
 }
 `
 
-export const defaultFragmentShaderSource = `#version 300 es
+export const default2DFragmentShaderSource = `#version 300 es
 precision highp float;
  
   uniform vec4 u_color;

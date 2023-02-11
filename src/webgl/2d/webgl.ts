@@ -1,11 +1,11 @@
-import {coreConfig} from "../state/coreConfig";
-import {Degrees, Entity, Vector2D} from "../interface/entity";
+import {coreConfig} from "../../state/coreConfig";
+import {Degrees, Entity, Vector2D} from "../../interface/entity";
 import { mat3 } from "gl-matrix"
 
 import {
     colorUniformLocation, modelViewProjection, vertexObjectCoordinates
 } from "./shaderSource";
-import {rollover} from "./wgl-math";
+import {rollover} from "../wgl-math";
 
 interface VertexAttribPointer {
     size: number,
@@ -67,6 +67,32 @@ const degreesToRadians = (degrees: Degrees): number => {
     return angleInDegrees * Math.PI / 180;
 }
 
+const apply2DTransformations = (entity: Entity) => {
+    const matrix2D = mat3.create();
+
+    mat3.identity(matrix2D);
+
+    // Apply projection to canvas size
+    mat3.projection(matrix2D, coreConfig.canvasConfig().width, coreConfig.canvasConfig().height);
+
+    // Move origin to center from pixel space
+    mat3.translate(matrix2D, matrix2D, [coreConfig.canvasConfig().width / 2, coreConfig.canvasConfig().height / 2]);
+
+    // Applies position to the entity
+    mat3.translate(matrix2D, matrix2D, [entity.transform.position.x, entity.transform.position.y]);
+
+    // Applies rotation to the entity
+    mat3.rotate(matrix2D, matrix2D, degreesToRadians(entity.transform.rotation));
+
+    // Applies scale to the entity
+    mat3.scale(matrix2D, matrix2D, [entity.transform.scale.x, entity.transform.scale.y]);
+
+    // Moves entity origin to the center of the entity
+    mat3.translate(matrix2D, matrix2D, [entity.transform.objectCenter.x, entity.transform.objectCenter.y]);
+
+    return matrix2D
+}
+
 const drawEntity = (entity: Entity, program: WebGLProgram) => {
     const gl = coreConfig.gl();
     const vao = gl.createVertexArray();
@@ -99,29 +125,10 @@ const drawEntity = (entity: Entity, program: WebGLProgram) => {
 
     gl.useProgram(program);
 
-    const matrix2D = mat3.create();
+    const matrix2d = apply2DTransformations(entity)
 
-    mat3.identity(matrix2D);
-
-    // Apply projection to canvas size
-    mat3.projection(matrix2D, coreConfig.canvasConfig().width, coreConfig.canvasConfig().height);
-
-    // Move origin to center from pixel space
-    mat3.translate(matrix2D, matrix2D, [coreConfig.canvasConfig().width / 2, coreConfig.canvasConfig().height / 2]);
-
-    // Applies position to the entity
-    mat3.translate(matrix2D, matrix2D, [entity.transform.position.x, entity.transform.position.y]);
-
-    // Applies rotation to the entity
-    mat3.rotate(matrix2D, matrix2D, degreesToRadians(entity.transform.rotation));
-
-    // Applies scale to the entity
-    mat3.scale(matrix2D, matrix2D, [entity.transform.scale.x, entity.transform.scale.y]);
-
-    // Moves entity origin to the center of the entity
-    mat3.translate(matrix2D, matrix2D, [entity.transform.objectCenter.x, entity.transform.objectCenter.y]);
-
-    gl.uniformMatrix3fv(modelViewProjection(program), false, matrix2D);
+    // @ts-ignore
+    gl.uniformMatrix3fv(modelViewProjection(program), false, matrix2d);
 
     gl.uniform4f(colorUniformLocation(program), 0.4, 0.4, 0.4, 1);
 

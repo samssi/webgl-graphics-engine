@@ -1,6 +1,6 @@
 import {coreConfig} from "../state/coreConfig";
 import {applicationState} from "../state/applicationState";
-import {drawEntities} from "../webgl/webgl";
+import {drawEntities} from "../webgl/2d/webgl";
 
 const renderLoop = (timestamp: number) => {
     const entities = applicationState.entities();
