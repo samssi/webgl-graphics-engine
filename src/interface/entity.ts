@@ -65,7 +65,7 @@ export const createPointsWithDefaults = (descriptor: string, points: Float32Arra
         points: points,
         transform: {
             objectCenter: centerOfAnObject(points),
-            position: { x: 300, y: 200 },
+            position: { x: 0, y: 0 },
             rotation: 0,
             scale: { x: 1, y: 1 }
         }}

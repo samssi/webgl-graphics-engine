@@ -19,9 +19,9 @@ const trianglePoints = new Float32Array([
     0,0,
 ]);
 
-const triangle: Entity = {
+const square: Entity = {
     points: trianglePoints,
-    descriptor: "triangle",
+    descriptor: "square",
     transform: {
         objectCenter: centerOfAnObject(trianglePoints),
         position: {
@@ -63,7 +63,7 @@ const fLetter: Entity = createPointsWithDefaults("f-letter",
 );
 
 export const exampleProgram = () => {
-    applicationState.putEntity(triangle);
+    applicationState.putEntity(square);
     //applicationState.putEntity(createRectangleWithDefaults('quad1', 200, 100))
     // applicationState.putEntity(fLetter);
 

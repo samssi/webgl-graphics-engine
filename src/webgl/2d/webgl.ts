@@ -5,7 +5,7 @@ import { mat3 } from "gl-matrix"
 import {
     colorUniformLocation, modelViewProjection, vertexObjectCoordinates
 } from "./shaderSource";
-import {rollover} from "../wgl-math";
+import {degreesToRadians, rollover} from "../wgl-math";
 
 interface VertexAttribPointer {
     size: number,
@@ -62,10 +62,7 @@ export const createProgramUsingShaders = (vertexShaderSource: string, fragmentSh
     return createProgram(gl, vertexShader, fragmentShader);
 }
 
-const degreesToRadians = (degrees: Degrees): number => {
-    const angleInDegrees = 360 - rollover(degrees, 0, 360);
-    return angleInDegrees * Math.PI / 180;
-}
+
 
 const apply2DTransformations = (entity: Entity) => {
     const matrix2D = mat3.create();
@@ -137,7 +134,7 @@ const drawEntity = (entity: Entity, program: WebGLProgram) => {
     gl.drawArrays(arraySettings.mode, arraySettings.first, arraySettings.count);
 }
 
-export const drawEntities = (entities: Entity[], program: WebGLProgram): void => {
+export const draw2DEntities = (entities: Entity[], program: WebGLProgram): void => {
     if (entities) {
         entities.forEach(entity => drawEntity(entity, program));
     }

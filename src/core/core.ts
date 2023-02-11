@@ -1,11 +1,11 @@
 import {coreConfig} from "../state/coreConfig";
 import {applicationState} from "../state/applicationState";
-import {drawEntities} from "../webgl/2d/webgl";
+import {draw2DEntities} from "../webgl/2d/webgl";
 
 const renderLoop = (timestamp: number) => {
     const entities = applicationState.entities();
 
-    drawEntities(entities, coreConfig.shaderProgram());
+    draw2DEntities(entities, coreConfig.shaderProgram());
     window.requestAnimationFrame(renderLoop)
 }
 
