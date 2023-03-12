@@ -1,10 +1,9 @@
 import {EventListener, Functionality, Listener} from "../interface/input";
 import {applicationState3d} from "../state/applicationState3d";
-import { Vector2d } from "../interface/entity2d";
-import { clamp, rollover } from "../webgl/wgl-math";
-import {Vector3d} from "../interface/entity3d";
+import {rollover} from "../webgl/wgl-math";
+import {resetTransform, Vector3d} from "../interface/entity3d";
 
-const keys = ["w" , "a" , "s" , "d", "q", "e", "1", "2", "3", "4"];
+const keys = ["w" , "a" , "s" , "d", "q", "e", "1", "2", "3", "4", "z", "c", "r"];
 type Key = typeof keys[number];
 
 type KeyMapping = {[key in Key]: Functionality}
@@ -14,8 +13,11 @@ const keymappings: KeyMapping = {
     "s": "down",
     "a": "left",
     "d": "right",
-    "q": "counter-clockwise",
-    "e": "clockwise",
+    "q": "z-counter-clockwise",
+    "e": "z-clockwise",
+    "z": "y-clockwise",
+    "c": "y-counter-clockwise",
+    "r": "reset",
     "1": "scale-x-",
     "2": "scale-x+",
     "3": "scale-y-",
@@ -91,14 +93,26 @@ const keyPress = (event: KeyboardEvent): void => {
         });
     }
 
-    if (functionality === "clockwise") {
+    if (functionality === "y-clockwise") {
+        const newRotation = entity.transform.rotation.y - rotationFactor
+        entity.transform.rotation.y = rollover(newRotation, 0, 360);
+    }
+
+    if (functionality === "y-counter-clockwise") {
+        entity.transform.rotation.y = rollover(entity.transform.rotation.y + rotationFactor, 0, 360)
+    }
+
+    if (functionality === "z-clockwise") {
         const newRotation = entity.transform.rotation.z- rotationFactor
         entity.transform.rotation.z = rollover(newRotation, 0, 360);
     }
 
-    if (functionality === "counter-clockwise") {
-        const newRotation = rollover(entity.transform.rotation.z + rotationFactor, 0, 360);
-        entity.transform.rotation.z = newRotation
+    if (functionality === "z-counter-clockwise") {
+        entity.transform.rotation.z = rollover(entity.transform.rotation.z + rotationFactor, 0, 360)
+    }
+
+    if (functionality === "reset") {
+        entity.transform = resetTransform()
     }
 
     applicationState3d.putEntity(entity);

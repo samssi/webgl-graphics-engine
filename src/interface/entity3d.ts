@@ -25,14 +25,16 @@ export interface Entity3d {
     transform: Transform;
 }
 
+export const resetTransform = (): Transform => ({
+    position: {x: 0, y: 0, z: 0},
+    rotation: {x: 0, y: 0, z: 0},
+    scale: {x: 1, y: 1, z: 1}
+})
+
 export const createEntityWithDefaults = (descriptor: string, points: Float32Array): Entity3d => {
     return {
         descriptor,
         points: points,
-        transform: {
-            position: { x: 0, y: 0, z: 0 },
-            rotation: { x: 0, y: 0, z: 0 },
-            scale: { x: 1, y: 1, z: 1}
-        }
+        transform: resetTransform()
     }
 }
