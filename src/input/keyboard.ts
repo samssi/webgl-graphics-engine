@@ -40,7 +40,7 @@ const keyPress = (event: KeyboardEvent): void => {
     const rotationFactor = 10;
     const scaleFactor = 0.1;
 
-    const tempEntityDescriptor = "f-letter"
+    const tempEntityDescriptor = "test"
     const entity = applicationState3d.getEntity(tempEntityDescriptor);
 
     if (functionality === "none") {
