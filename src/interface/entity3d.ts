@@ -22,6 +22,8 @@ export interface Transform {
 export interface Entity3d {
     descriptor: Descriptor;
     points: Float32Array;
+    // TODO: temp solution
+    colorPoints?: Uint8Array;
     transform: Transform;
 }
 
@@ -31,10 +33,11 @@ export const resetTransform = (): Transform => ({
     scale: {x: 1, y: 1, z: 1}
 })
 
-export const createEntityWithDefaults = (descriptor: string, points: Float32Array): Entity3d => {
+export const createEntityWithDefaults = (descriptor: string, points: Float32Array, colorPoints?: Uint8Array): Entity3d => {
     return {
         descriptor,
         points: points,
+        colorPoints: colorPoints,
         transform: resetTransform()
     }
 }

@@ -1,9 +1,9 @@
 import {coreConfig} from "../../state/coreConfig";
 
-import { mat4 } from "gl-matrix"
+import {mat4} from "gl-matrix"
 
-import { DrawArraysSettings, VertexAttribPointer } from "../settings";
-import {colorUniformLocation, modelViewProjection, vertexObjectCoordinates} from "./shaderSource";
+import {DrawArraysSettings, VertexAttribPointer} from "../settings";
+import {colorCoordinates, modelViewProjection, vertexObjectCoordinates} from "./shaderSource";
 import {Entity3d} from "../../interface/entity3d";
 import {degreesToRadians} from "../wgl-math";
 
@@ -16,7 +16,7 @@ const apply3DTransformations = (entity: Entity3d): mat4 => {
 
     mat4.ortho(projection, -200, 200, 200, -200, 200, -200);
 
-    mat4.lookAt(modelView, [0,0,0], [0,0,0], [0,0,0]);
+    mat4.lookAt(modelView, [0, 0, 0], [0, 0, 0], [0, 0, 0]);
 
     mat4.translate(modelView, modelView, [entity.transform.position.x, entity.transform.position.y, entity.transform.position.z]);
 
@@ -33,13 +33,36 @@ const apply3DTransformations = (entity: Entity3d): mat4 => {
     return modelViewProjection;
 }
 
-const drawEntity = (entity: Entity3d, program: WebGLProgram) => {
+const setColor = (entity: Entity3d, program: WebGLProgram) => {
     const gl = coreConfig.gl();
-    const vao = gl.createVertexArray();
 
-    const pointCount = entity.points.length;
+    if (entity.colorPoints) {
+        const colorBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
+        gl.bufferData(gl.ARRAY_BUFFER, entity.colorPoints, gl.STATIC_DRAW);
+        gl.enableVertexAttribArray(colorCoordinates(program));
 
-    const pointer: VertexAttribPointer = {
+        const attributePointer: VertexAttribPointer = {
+            size: 3,
+            type: gl.UNSIGNED_BYTE,
+            normalize: true,
+            stride: 0,
+            offset: 0
+        }
+
+        gl.vertexAttribPointer(colorCoordinates(program), attributePointer.size, attributePointer.type,
+            attributePointer.normalize, attributePointer.stride, attributePointer.offset);
+    }
+}
+
+const setGeometry = (entity: Entity3d, program: WebGLProgram) => {
+    const gl = coreConfig.gl();
+
+    const positionBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, entity.points, gl.STATIC_DRAW);
+
+    const positionAttributePointer: VertexAttribPointer = {
         size: 3,
         type: gl.FLOAT,
         normalize: false,
@@ -47,33 +70,30 @@ const drawEntity = (entity: Entity3d, program: WebGLProgram) => {
         offset: 0
     }
 
-    const arraySettings: DrawArraysSettings = {
+
+    gl.enableVertexAttribArray(vertexObjectCoordinates(program));
+    gl.vertexAttribPointer(vertexObjectCoordinates(program),
+        positionAttributePointer.size, positionAttributePointer.type, positionAttributePointer.normalize, positionAttributePointer.stride, positionAttributePointer.offset);
+}
+
+const drawEntity = (entity: Entity3d, program: WebGLProgram) => {
+    const gl = coreConfig.gl();
+    gl.useProgram(program);
+
+    const pointCount = entity.points.length;
+    setGeometry(entity, program)
+    setColor(entity, program);
+
+    const matrix3d = apply3DTransformations(entity)
+    gl.uniformMatrix4fv(modelViewProjection(program), false, matrix3d);
+
+    const pointArraySettings: DrawArraysSettings = {
         mode: gl.TRIANGLES,
         first: 0,
         count: pointCount
     }
 
-    const positionBuffer = gl.createBuffer();
-
-    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, entity.points, gl.STATIC_DRAW);
-
-    gl.bindVertexArray(vao);
-    gl.enableVertexAttribArray(vertexObjectCoordinates(program));
-
-    gl.vertexAttribPointer(vertexObjectCoordinates(program), pointer.size, pointer.type, pointer.normalize, pointer.stride, pointer.offset);
-
-    gl.useProgram(program);
-
-    const matrix3d = apply3DTransformations(entity)
-
-    gl.uniformMatrix4fv(modelViewProjection(program), false, matrix3d);
-
-    gl.uniform4f(colorUniformLocation(program), 0.4, 0.4, 0.4, 1);
-
-    gl.bindVertexArray(vao);
-
-    gl.drawArrays(arraySettings.mode, arraySettings.first, arraySettings.count);
+    gl.drawArrays(pointArraySettings.mode, pointArraySettings.first, pointArraySettings.count);
 }
 
 export const draw3DEntities = (entities: Entity3d[], program: WebGLProgram): void => {
