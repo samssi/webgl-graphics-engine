@@ -2,58 +2,31 @@ import {run} from "../core/core";
 import {createEntityWithDefaults, Entity3d} from "../interface/entity3d";
 import {applicationState3d} from "../state/applicationState3d";
 
-const fLetter: Entity3d = createEntityWithDefaults("f-letter",
-    new Float32Array([
-        // left column
-        0,   0,  0,
-        30,   0,  0,
-        0, 150,  0,
-        0, 150,  0,
-        30,   0,  0,
-        30, 150,  0,
-
-        // top rung
-        30,   0,  0,
-        100,   0,  0,
-        30,  30,  0,
-        30,  30,  0,
-        100,   0,  0,
-        100,  30,  0,
-
-        // middle rung
-        30,  60,  0,
-        67,  60,  0,
-        30,  90,  0,
-        30,  90,  0,
-        67,  60,  0,
-        67,  90,  0])
-    );
-
 const fLetter3DPoints: Float32Array =
     new Float32Array([
         // left column front
         0,   0,  0,
-        30,   0,  0,
-        0, 150,  0,
         0, 150,  0,
         30,   0,  0,
+        0, 150,  0,
         30, 150,  0,
+        30,   0,  0,
 
         // top rung front
         30,   0,  0,
-        100,   0,  0,
-        30,  30,  0,
         30,  30,  0,
         100,   0,  0,
+        30,  30,  0,
         100,  30,  0,
+        100,   0,  0,
 
         // middle rung front
         30,  60,  0,
-        67,  60,  0,
-        30,  90,  0,
         30,  90,  0,
         67,  60,  0,
+        30,  90,  0,
         67,  90,  0,
+        67,  60,  0,
 
         // left column back
         0,   0,  30,
@@ -105,27 +78,27 @@ const fLetter3DPoints: Float32Array =
 
         // between top rung and middle
         30,   30,   0,
+        30,   60,  30,
         30,   30,  30,
-        30,   60,  30,
         30,   30,   0,
-        30,   60,  30,
         30,   60,   0,
+        30,   60,  30,
 
         // top of middle rung
         30,   60,   0,
+        67,   60,  30,
         30,   60,  30,
-        67,   60,  30,
         30,   60,   0,
-        67,   60,  30,
         67,   60,   0,
+        67,   60,  30,
 
         // right of middle rung
         67,   60,   0,
+        67,   90,  30,
         67,   60,  30,
-        67,   90,  30,
         67,   60,   0,
-        67,   90,  30,
         67,   90,   0,
+        67,   90,  30,
 
         // bottom of middle rung.
         30,   90,   0,
@@ -137,11 +110,11 @@ const fLetter3DPoints: Float32Array =
 
         // right of bottom
         30,   90,   0,
+        30,  150,  30,
         30,   90,  30,
-        30,  150,  30,
         30,   90,   0,
-        30,  150,  30,
         30,  150,   0,
+        30,  150,  30,
 
         // bottom
         0,   150,   0,

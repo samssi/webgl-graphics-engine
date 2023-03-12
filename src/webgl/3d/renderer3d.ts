@@ -15,19 +15,13 @@ const apply3DTransformations = (entity: Entity3d): mat4 => {
     mat4.identity(modelView);
 
     mat4.ortho(projection, -200, 200, 200, -200, 200, -200);
-
     mat4.lookAt(modelView, [0, 0, 0], [0, 0, 0], [0, 0, 0]);
 
     mat4.translate(modelView, modelView, [entity.transform.position.x, entity.transform.position.y, entity.transform.position.z]);
-
     mat4.rotateX(modelView, modelView, degreesToRadians(entity.transform.rotation.x));
-
     mat4.rotateY(modelView, modelView, degreesToRadians(entity.transform.rotation.y));
-
     mat4.rotateZ(modelView, modelView, degreesToRadians(entity.transform.rotation.z));
-
     mat4.scale(modelView, modelView, [entity.transform.scale.x, entity.transform.scale.y, entity.transform.scale.z]);
-
     mat4.multiply(modelViewProjection, projection, modelView);
 
     return modelViewProjection;
@@ -78,6 +72,9 @@ const setGeometry = (entity: Entity3d, program: WebGLProgram) => {
 
 const drawEntity = (entity: Entity3d, program: WebGLProgram) => {
     const gl = coreConfig.gl();
+
+    gl.enable(gl.CULL_FACE);
+    gl.enable(gl.DEPTH_TEST);
     gl.useProgram(program);
 
     const pointCount = entity.points.length;

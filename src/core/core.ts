@@ -26,7 +26,7 @@ export const run = () => {
     );
     const gl = coreConfig.gl();
     gl.clearColor(0,0,0,0);
-    gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.viewport(0,0, coreConfig.canvasConfig().width, coreConfig.canvasConfig().height);
 
     window.requestAnimationFrame(renderLoop3d);
