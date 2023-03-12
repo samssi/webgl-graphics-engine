@@ -1,7 +1,8 @@
 import {EventListener, Functionality, Listener} from "../interface/input";
-import {applicationState} from "../state/applicationState";
+import {applicationState3d} from "../state/applicationState3d";
 import { Vector2d } from "../interface/entity2d";
 import { clamp, rollover } from "../webgl/wgl-math";
+import {Vector3d} from "../interface/entity3d";
 
 const keys = ["w" , "a" , "s" , "d", "q", "e", "1", "2", "3", "4"];
 type Key = typeof keys[number];
@@ -25,9 +26,10 @@ const keyToFunctionality = (key: string): Functionality => {
     return keys.includes(key) ? keymappings[key] : "none";
 }
 
-const sum = (current: Vector2d, change: Vector2d): Vector2d => ({
+const sum = (current: Vector3d, change: Vector3d): Vector3d => ({
     x: current.x + change.x,
-    y: current.y + change.y
+    y: current.y + change.y,
+    z: current.z + change.z
 })
 
 const keyPress = (event: KeyboardEvent): void => {
@@ -36,8 +38,8 @@ const keyPress = (event: KeyboardEvent): void => {
     const rotationFactor = 10;
     const scaleFactor = 0.1;
 
-    const tempEntityDescriptor = "square"
-    const entity = applicationState.getEntity(tempEntityDescriptor);
+    const tempEntityDescriptor = "f-letter"
+    const entity = applicationState3d.getEntity(tempEntityDescriptor);
 
     if (functionality === "none") {
         console.log('none')
@@ -60,42 +62,46 @@ const keyPress = (event: KeyboardEvent): void => {
     if (functionality === "left") {
         entity.transform.position = sum(entity.transform.position, {
             x: -moveFactor,
-            y: 0
+            y: 0,
+            z: 0
         })
     }
 
    if (functionality === "right") {
        entity.transform.position = sum(entity.transform.position, {
             x: moveFactor,
-            y: 0
+            y: 0,
+            z: 0
         })
     }
 
     if (functionality === "up") {
         entity.transform.position = sum(entity.transform.position, {
             x: 0,
-            y: -moveFactor
+            y: -moveFactor,
+            z: 0
         });
     }
 
     if (functionality === "down") {
         entity.transform.position = sum(entity.transform.position, {
             x: 0,
-            y: moveFactor
+            y: moveFactor,
+            z: 0
         });
     }
 
     if (functionality === "clockwise") {
-        const newRotation = entity.transform.rotation - rotationFactor
-        entity.transform.rotation = rollover(newRotation, 0, 360);
+        const newRotation = entity.transform.rotation.z- rotationFactor
+        entity.transform.rotation.z = rollover(newRotation, 0, 360);
     }
 
     if (functionality === "counter-clockwise") {
-        const newRotation = rollover(entity.transform.rotation + rotationFactor, 0, 360);
-        entity.transform.rotation = newRotation
+        const newRotation = rollover(entity.transform.rotation.z + rotationFactor, 0, 360);
+        entity.transform.rotation.z = newRotation
     }
 
-    applicationState.putEntity(entity);
+    applicationState3d.putEntity(entity);
 }
 
 export const keyboardListener: Listener<KeyboardEvent> = {
