@@ -2,6 +2,8 @@ import {exampleProgram2D} from "./examples/exampleProgram2D";
 import {coreConfig} from "./state/coreConfig";
 import {keyboardListener} from "./input/keyboard";
 import {exampleProgram3D} from "./examples/exampleProgram3D";
+import {objectFileLoader} from "./core/objectLoader";
+
 
 const canvasElementOrFail = (canvasElement: HTMLElement, width: number, height: number): HTMLCanvasElement => {
     if (canvasElement instanceof HTMLCanvasElement) {
@@ -28,38 +30,9 @@ const webGL2ContextOrFail = (canvas: HTMLCanvasElement) => {
     return gl;
 }
 
-const fileExtension = (file: File) => {
-    const filename = file.name;
-    const fileExtensionsPosition = file.name.lastIndexOf(".");
-    return fileExtensionsPosition > 0
-        ?  filename.substring(fileExtensionsPosition)
-        : ''
-}
-
-const storeFileContentAsEntity = (reader: FileReader) => {
-    if (reader.result) {
-        console.log(reader.result.toString())
-    }
-}
-
-const fileToString = (file: File) => {
-    const reader = new FileReader();
-    reader.readAsText(file);
-    reader.onload = () => storeFileContentAsEntity(reader);
-}
-
-const handleFileUpload = (event: Event) => {
-    const target = event.target as HTMLInputElement;
-    if (target.files) {
-        const [file] = target.files;
-        console.log(`Read file called: ${file.name}`);
-        fileExtension(file) === ".obj" && fileToString(file)
-    }
-}
-
 const initFileUpload = () => {
     const fileInput = elementByIdOrFail("fileInput");
-    fileInput.addEventListener("change", handleFileUpload, false);
+    fileInput.addEventListener("change", objectFileLoader, false);
 }
 
 const initWebGLContext = (elementId: string) => {
