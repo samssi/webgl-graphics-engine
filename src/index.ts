@@ -2,7 +2,7 @@ import {exampleProgram2D} from "./examples/exampleProgram2D";
 import {coreConfig} from "./state/coreConfig";
 import {keyboardListener} from "./input/keyboard";
 import {exampleProgram3D} from "./examples/exampleProgram3D";
-import {objectFileLoader} from "./core/objectLoader";
+import {objectFileLoader} from "./core/objectFileLoader";
 
 
 const canvasElementOrFail = (canvasElement: HTMLElement, width: number, height: number): HTMLCanvasElement => {
