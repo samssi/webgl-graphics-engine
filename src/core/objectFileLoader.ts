@@ -28,6 +28,8 @@ interface WavefrontObject {
 
 const parseObjectFileLineContent = (line: string) => line.substring(2, line.length)
 
+const parseV = (lineContent: string) => lineContent.split(" ")
+
 const parsePointsFromObjectFile = (fileContent: string): WavefrontObject => {
     let o = "";
     let v: string[] = [];
@@ -37,7 +39,7 @@ const parsePointsFromObjectFile = (fileContent: string): WavefrontObject => {
             o = parseObjectFileLineContent(line);
         }
         if (line.startsWith("v ")) {
-            v.push(parseObjectFileLineContent(line));
+            v.push(...parseV(parseObjectFileLineContent(line)));
         }
     })
 
