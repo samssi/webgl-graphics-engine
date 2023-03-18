@@ -23,9 +23,43 @@ const elementByIdOrFail = (elementId: string) => {
 const webGL2ContextOrFail = (canvas: HTMLCanvasElement) => {
     const gl = canvas.getContext("webgl2");
     if (gl === null) {
-        throw new Error("WebGL 2 not available for the browser!")
+        throw new Error("WebGL 2 not available for the browser!");
     }
     return gl;
+}
+
+const fileExtension = (file: File) => {
+    const filename = file.name;
+    const fileExtensionsPosition = file.name.lastIndexOf(".");
+    return fileExtensionsPosition > 0
+        ?  filename.substring(fileExtensionsPosition)
+        : ''
+}
+
+const storeFileContentAsEntity = (reader: FileReader) => {
+    if (reader.result) {
+        console.log(reader.result.toString())
+    }
+}
+
+const fileToString = (file: File) => {
+    const reader = new FileReader();
+    reader.readAsText(file);
+    reader.onload = () => storeFileContentAsEntity(reader);
+}
+
+const handleFileUpload = (event: Event) => {
+    const target = event.target as HTMLInputElement;
+    if (target.files) {
+        const [file] = target.files;
+        console.log(`Read file called: ${file.name}`);
+        fileExtension(file) === ".obj" && fileToString(file)
+    }
+}
+
+const initFileUpload = () => {
+    const fileInput = elementByIdOrFail("fileInput");
+    fileInput.addEventListener("change", handleFileUpload, false);
 }
 
 const initWebGLContext = (elementId: string) => {
@@ -34,6 +68,7 @@ const initWebGLContext = (elementId: string) => {
     const depth = 100;
     const canvas = canvasElementOrFail(elementByIdOrFail(elementId), width, height);
     const gl = webGL2ContextOrFail(canvas);
+    initFileUpload();
 
     coreConfig.init(
         {
