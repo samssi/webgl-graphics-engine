@@ -1,7 +1,7 @@
 import {Listener} from "../interface/input";
 
 import {createProgramUsingShaders} from "../webgl/settings";
-import {default3DFragmentShaderSource, default3DVertexShaderSource} from "../webgl/3d/shaderSource";
+import {default3DFragmentShaderSource, default3DVertexShaderSource} from "../webgl/3d/shaderSourceSingleColor";
 
 export interface CoreConfig {
     gl: WebGL2RenderingContext;

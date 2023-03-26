@@ -3,6 +3,7 @@ import {applicationState} from "../state/applicationState";
 import {draw2DEntities} from "../webgl/2d/renderer2d";
 import {draw3DEntities} from "../webgl/3d/renderer3d";
 import {applicationState3d} from "../state/applicationState3d";
+import {draw3DEntitiesSingleColor} from "../webgl/3d/renderer3dSingleColor";
 
 const renderLoop2d = (timestamp: number) => {
     const entities = applicationState.entities();
@@ -14,7 +15,8 @@ const renderLoop2d = (timestamp: number) => {
 const renderLoop3d = (timestamp: number) => {
     const entities = applicationState3d.entities();
 
-    draw3DEntities(entities, coreConfig.shaderProgram());
+    // draw3DEntities(entities, coreConfig.shaderProgram());
+    draw3DEntitiesSingleColor(entities, coreConfig.shaderProgram());
     window.requestAnimationFrame(renderLoop3d)
 }
 

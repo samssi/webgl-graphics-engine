@@ -2,7 +2,7 @@ import {Entity3d, resetTransform} from "../interface/entity3d";
 import {applicationState3d} from "../state/applicationState3d";
 
 // TODO: just initially used to upscale object file points
-const scaleFactor = 50;
+const scaleFactor = 1500;
 
 const fileExtension = (file: File) => {
     const filename = file.name;
@@ -27,17 +27,25 @@ const fileToString = (file: File) => {
 
 interface WavefrontObject {
     o: string;
-    v: number[];
+    v: number[][];
+    f: number[][][];
 }
 
-const parseObjectFileLineContent = (line: string) => line.substring(2, line.length)
+const parseObjectFileLineContent = (line: string): string => line.substring(2, line.length)
 
 const parseV = (lineContent: string) =>
-    lineContent.split(" ").map(content => parseInt(content) * scaleFactor)
+    [lineContent.split(" ").map(content => parseFloat(content) * scaleFactor)]
+
+const parseF = (lineContent: string): number[][] => {
+    const elements = lineContent.split(" ")
+    const faces = elements.map(element => element.split("/"));
+    return faces.map(face => face.map(element => parseFloat(element)))
+}
 
 const parsePointsFromObjectFile = (fileContent: string): WavefrontObject => {
     let o = "";
-    let v: number[] = [];
+    let v: number[][] = [];
+    let f: number[][][] = [];
 
     fileContent.split("\n").forEach(line => {
         if (line.startsWith("o ")) {
@@ -46,23 +54,37 @@ const parsePointsFromObjectFile = (fileContent: string): WavefrontObject => {
         if (line.startsWith("v ")) {
             v.push(...parseV(parseObjectFileLineContent(line)));
         }
+        if (line.startsWith("f ")) {
+            f.push(parseF(parseObjectFileLineContent(line)));
+        }
     })
 
-    return {o, v};
+    return {o, v, f};
+}
+
+const waveFrontObjectAsTrianglePoints = (wavefrontObject: WavefrontObject) => {
+    const elements = wavefrontObject.f.flat();
+    const positions = elements.map(element => element[0] - 1);
+    if (positions.length % 3 !== 0) {
+        throw new Error("Invalid amount of points to transform into triangles in WaveFront Object parsing");
+    }
+    return positions.map(position => wavefrontObject.v[position]);
 }
 
 // TODO: use waveform object file "o" as the descriptor
 const objectFileContentToEntity3d = (fileContent: string) => {
     const wavefrontObject = parsePointsFromObjectFile(fileContent);
     console.log(wavefrontObject)
+
+    const points = waveFrontObjectAsTrianglePoints(wavefrontObject);
     const entity: Entity3d = {
         // TODO: temp descriptor that replaces the default object with this one in
         // TODO: the renderer
         descriptor: "test",
-        points: new Float32Array(wavefrontObject.v),
+        points: new Float32Array(points.flat()),
         transform: resetTransform()
     }
-    applicationState3d.putEntity(entity)
+    applicationState3d.putEntity(entity);
 }
 
 export const objectFileLoader = (event: Event) => {
