@@ -3,6 +3,7 @@ import {coreConfig} from "./state/coreConfig";
 import {keyboardListener} from "./input/keyboard";
 import {exampleProgram3D} from "./examples/exampleProgram3D";
 import {objectFileLoader} from "./core/objectFileLoader";
+import {applicationState3d, Projection} from "./state/applicationState3d";
 
 
 const canvasElementOrFail = (canvasElement: HTMLElement, width: number, height: number): HTMLCanvasElement => {
@@ -35,6 +36,22 @@ const initFileUpload = () => {
     fileInput.addEventListener("change", objectFileLoader, false);
 }
 
+const currentProjectionLabel = (projection: Projection) => {
+    const currentProjection = elementByIdOrFail("currentProjection");
+    currentProjection.innerHTML = `<b>Projection:</b> ${projection}`
+}
+
+const toggleProjection = () => {
+    applicationState3d.toggleProjection()
+    currentProjectionLabel(applicationState3d.getProjection())
+}
+
+const initProjection = () => {
+    const projection = elementByIdOrFail("projection");
+    currentProjectionLabel(applicationState3d.getProjection())
+    projection.addEventListener("click", toggleProjection, false);
+}
+
 const initWebGLContext = (elementId: string) => {
     const width = 800;
     const height = 600;
@@ -42,6 +59,7 @@ const initWebGLContext = (elementId: string) => {
     const canvas = canvasElementOrFail(elementByIdOrFail(elementId), width, height);
     const gl = webGL2ContextOrFail(canvas);
     initFileUpload();
+    initProjection();
 
     coreConfig.init(
         {

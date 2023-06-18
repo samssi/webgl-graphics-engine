@@ -73,7 +73,7 @@ const setGeometry = (entity: Entity3d, program: WebGLProgram) => {
 const drawEntity = (entity: Entity3d, program: WebGLProgram) => {
     const gl = coreConfig.gl();
 
-    //gl.enable(gl.CULL_FACE);
+    gl.enable(gl.CULL_FACE);
     gl.enable(gl.DEPTH_TEST);
     gl.useProgram(program);
 
